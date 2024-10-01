@@ -21,11 +21,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-"""Basic Testing."""
 
-import ucdp_common
+"""Clock Or."""
+
+import ucdp as u
+
+from ucdp_common.fileliststandard import HdlFileList
 
 
-def test_examplefunc():
-    """Simple Testing."""
-    assert ucdp_common.examplefunc(3, second=2) == 5
+class UcdpClkOrMod(u.AMod):
+    """
+    Clock Or.
+
+    The logic is required for synthesis.
+    """
+
+    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
+
+    def _build(self):
+        # -----------------------------
+        # Port List
+        # -----------------------------
+        self.add_port(u.ClkType(), "clka_i", title="Clock A")
+        self.add_port(u.ClkType(), "clkb_i", title="Clock B")
+        self.add_port(u.ClkType(), "clk_o", title="Clock output")

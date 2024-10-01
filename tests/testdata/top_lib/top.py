@@ -23,5 +23,27 @@
 #
 
 """
-Unified Chip Design Platform - Common Modules.
+Top.
 """
+
+import ucdp as u
+
+from ucdp_common.fileliststandard import HdlFileList
+from ucdp_common.ucdp_clk_buf import UcdpClkBufMod
+from ucdp_common.ucdp_clk_mux import UcdpClkMuxMod
+from ucdp_common.ucdp_clk_or import UcdpClkOrMod
+from ucdp_common.ucdp_latch import UcdpLatchMod
+from ucdp_common.ucdp_sync import UcdpSyncMod
+
+
+class TopMod(u.AMod):
+    """Top Module."""
+
+    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="full"),)
+
+    def _build(self) -> None:
+        UcdpClkBufMod(self, "u_clk_buf")
+        UcdpClkMuxMod(self, "u_clk_mux")
+        UcdpClkOrMod(self, "u_clk_or")
+        UcdpLatchMod(self, "u_latch")
+        UcdpSyncMod(self, "u_sync")

@@ -30,6 +30,15 @@ nav:
   - Get Started:
     - Welcome to UCDP-COMMON: index.md
     - Contributing: contributing.md
+  - API:
+    - File-List-Standard: api/fileliststandard.md
+    - Clock Buffer: api/ucdp_clk_buf.md
+    - Clock Gate: api/ucdp_clk_gate.md
+    - Clock Multiplexer: api/ucdp_clk_mux.md
+    - Clock OR: api/ucdp_clk_or.md
+    - Latch: api/ucdp_latch.md
+    - Synchronizer: api/ucdp_sync.md
+
 
 plugins:
   - search

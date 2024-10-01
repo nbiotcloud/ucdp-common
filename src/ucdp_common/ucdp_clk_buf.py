@@ -22,6 +22,25 @@
 # SOFTWARE.
 #
 
-"""
-Unified Chip Design Platform - Common Modules.
-"""
+"""Clock Buffer."""
+
+import ucdp as u
+
+from ucdp_common.fileliststandard import HdlFileList
+
+
+class UcdpClkBufMod(u.AMod):
+    """
+    Clock Buffer.
+
+    The logic is required for synthesis.
+    """
+
+    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
+
+    def _build(self):
+        # -----------------------------
+        # Port List
+        # -----------------------------
+        self.add_port(u.ClkType(), "clk_i", title="Clock input")
+        self.add_port(u.ClkType(), "clk_o", title="Clock output")

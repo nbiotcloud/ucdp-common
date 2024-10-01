@@ -23,5 +23,25 @@
 #
 
 """
-Unified Chip Design Platform - Common Modules.
+File List Standards.
 """
+
+import ucdp as u
+
+
+class HdlFileList(u.ModFileList):
+    """HDL File Lists."""
+
+    name: str = "hdl"
+    filepaths: u.ToPaths = ("../{mod.libname}/{mod.topmodname}/{view}/{mod.modname}.sv",)
+    template_filepaths: u.ToPaths = ("sv.mako",)
+
+    @staticmethod
+    def get_mod_placeholder(mod, **kwargs) -> u.Placeholder:
+        """Get Module Placeholder."""
+        view = "tb" if mod.is_tb else "rtl"
+        return {
+            "mod": mod,
+            "view": view,
+            **kwargs,
+        }
