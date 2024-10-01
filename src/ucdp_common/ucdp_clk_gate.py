@@ -22,6 +22,26 @@
 # SOFTWARE.
 #
 
-"""
-Unified Chip Design Platform - Common Modules.
-"""
+"""Clock Multiplexer."""
+
+import ucdp as u
+
+from ucdp_common.fileliststandard import HdlFileList
+
+
+class UcdpClkGateMod(u.AMod):
+    """
+    Clock Mux.
+
+    The logic is required for synthesis.
+    """
+
+    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
+
+    def _build(self):
+        # -----------------------------
+        # Port List
+        # -----------------------------
+        self.add_port(u.ClkRstAnType(), "main_i")
+        self.add_port(u.EnaType(), "ena_i")
+        self.add_port(u.ClkType(), "clk_o", title="Clock output")

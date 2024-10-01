@@ -22,6 +22,32 @@
 # SOFTWARE.
 #
 
-"""
-Unified Chip Design Platform - Common Modules.
-"""
+"""Latch."""
+
+import ucdp as u
+
+# from cld_dft.types import DftModeType
+from ucdp_common.fileliststandard import HdlFileList
+
+
+class UcdpLatchMod(u.AMod):
+    """
+    Latch.
+
+    Testable Latch.
+    """
+
+    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
+
+    def _build(self):
+        width_p = self.add_param(u.IntegerType(default=1), "width_p", title="Width in Bits")
+        self.add_param(u.UintType(width_p), "rstval_p", title="Reset Value")
+
+        # -----------------------------
+        # Port List
+        # -----------------------------
+        self.add_port(u.ClkRstAnType(), "main_i")
+        # self.add_port(DftModeType(), "dft_mode_i", title="DFT Mode")
+        self.add_port(u.BitType(), "ld_i", title="Load")
+        self.add_port(u.UintType(width_p), "d_i", title="Data Input")
+        self.add_port(u.UintType(width_p), "q_o", title="Data Output")

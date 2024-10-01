@@ -21,7 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+"""Systemverilog Tests."""
 
-"""
-Unified Chip Design Platform - Common Modules.
-"""
+import ucdp as u
+
+
+def test_top(testdata):
+    """Top."""
+    top = u.load("top_lib.top", paths=(testdata,))
+    u.generate(top, "*")

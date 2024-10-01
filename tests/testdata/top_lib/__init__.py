@@ -23,5 +23,5 @@
 #
 
 """
-Unified Chip Design Platform - Common Modules.
+Example Library.
 """

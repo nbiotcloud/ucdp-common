@@ -21,16 +21,38 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-"""Testing Fixtures."""
 
-from pytest import fixture
+"""Clock Multiplexer."""
+
+import ucdp as u
+
+from ucdp_common.fileliststandard import HdlFileList
 
 
-@fixture()
-def myfixture(tmp_path):
-    """Example Fixture."""
-    mytmp_path = tmp_path / "mysub"
-    mytmp_path.mkdir(parents=True)
-    (mytmp_path / "myfile.txt").write_text("filecontent")
+class SelType(u.AEnumType):
+    """Select."""
 
-    yield mytmp_path
+    keytype: u.BitType = u.BitType()
+
+    def _build(self) -> None:
+        self._add(0, "a")
+        self._add(1, "a")
+
+
+class UcdpClkMuxMod(u.AMod):
+    """
+    Clock Mux.
+
+    The logic is required for synthesis.
+    """
+
+    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
+
+    def _build(self):
+        # -----------------------------
+        # Port List
+        # -----------------------------
+        self.add_port(u.ClkType(), "clka_i", title="Clock A")
+        self.add_port(u.ClkType(), "clkb_i", title="Clock B")
+        self.add_port(SelType(), "sel_i", title="Select", comment="Select")
+        self.add_port(u.ClkType(), "clk_o", title="Clock output")

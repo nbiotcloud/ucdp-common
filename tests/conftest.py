@@ -21,7 +21,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+"""Fixtures."""
 
-"""
-Unified Chip Design Platform - Common Modules.
-"""
+from pathlib import Path
+
+from pytest import fixture
+
+TESTDATA_PATH = Path(__file__).parent / "testdata"
+
+
+@fixture
+def testdata():
+    """Test Data Path."""
+    yield TESTDATA_PATH
