@@ -143,6 +143,34 @@ module top ( // top_lib.top.TopMod
     .edge_o               (    )  // TODO - Edge Output
   );
 
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_afifo: u_afifo
+  // ------------------------------------------------------
+  ucdp_afifo u_afifo (
+    // clk0_i
+    .clk0_clk_i           (1'b0      ), // TODO
+    .clk0_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    // clk1_i
+    .clk1_clk_i           (1'b0      ), // TODO
+    .clk1_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0      ), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0      ), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0      ), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0      ), // TODO - Memory Built-In Self-Test
+    // clk0_wr_i
+    .clk0_wr_ena_i        (1'b1      ), // TODO
+    .clk0_wr_full_o       (          ), // TODO
+    .clk0_wr_space_avail_o(          ), // TODO
+    .clk0_wr_data_i       ({8 {1'b0}}), // TODO
+    // clk1_rd_o
+    .clk1_rd_ena_i        (1'b0      ), // TODO
+    .clk1_rd_empty_o      (          ), // TODO
+    .clk1_rd_data_avail_o (          ), // TODO
+    .clk1_rd_data_o       (          )  // TODO
+  );
+
 endmodule // top
 
 `default_nettype wire

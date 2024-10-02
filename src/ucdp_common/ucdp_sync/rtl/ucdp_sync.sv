@@ -52,32 +52,6 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
 );
 
 
-
-  // ------------------------------------------------------
-  //  ucdp_common.ucdp_sync_leaf0: u_sync_leaf0
-  // ------------------------------------------------------
-  ucdp_sync_leaf0 u_sync_leaf0 (
-    // main_i
-    .main_clk_i   (1'b0), // TODO
-    .main_rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
-    .scan_shift_i (1'b0), // TODO - Scan Shift Phase
-    .d_i          (1'b0), // TODO - Data Input
-    .q_o          (    )  // TODO - Data Output
-  );
-
-
-  // ------------------------------------------------------
-  //  ucdp_common.ucdp_sync_leaf1: u_sync_leaf1
-  // ------------------------------------------------------
-  ucdp_sync_leaf1 u_sync_leaf1 (
-    // main_i
-    .main_clk_i   (1'b0), // TODO
-    .main_rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
-    .scan_shift_i (1'b0), // TODO - Scan Shift Phase
-    .d_i          (1'b0), // TODO - Data Input
-    .q_o          (    )  // TODO - Data Output
-  );
-
 // GENERATE INPLACE END head ===================================================
 
 // lint_checking USEPRT on

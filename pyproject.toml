@@ -59,7 +59,7 @@ test = [
     "coveralls>=3.3.1",
     "pytest-cov>=5.0.0",
     "test2ref>=0.4.2",
-    "ucdp-sv>=0.9.1",
+    "ucdp-sv>=0.10.1",
 ]
 checktypes = [
     "mypy>=1.9.0",

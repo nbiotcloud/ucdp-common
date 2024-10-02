@@ -29,6 +29,7 @@ Top.
 import ucdp as u
 
 from ucdp_common.fileliststandard import HdlFileList
+from ucdp_common.ucdp_afifo import UcdpAfifoMod
 from ucdp_common.ucdp_clk_buf import UcdpClkBufMod
 from ucdp_common.ucdp_clk_mux import UcdpClkMuxMod
 from ucdp_common.ucdp_clk_or import UcdpClkOrMod
@@ -54,3 +55,5 @@ class TopMod(u.AMod):
 
         UcdpSyncMod(self, "u_sync0")
         UcdpSyncMod(self, "u_sync1", paramdict={"rstval_p": 1})
+
+        UcdpAfifoMod(self, "u_afifo")
