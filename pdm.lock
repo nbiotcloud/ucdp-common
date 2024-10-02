@@ -5,7 +5,7 @@
 groups = ["default", "checktypes", "doc", "format", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:e206fed9fa6ec51a53fd954b378c0c484a07148585803ef1a9cb8a4b1b7c694b"
+content_hash = "sha256:6c5b355339c94d3a31671961edd2879591b217855d71f7701a6a90510ee5b771"
 
 [[metadata.targets]]
 requires_python = ">=3.10.0,<4.0"
@@ -1650,7 +1650,7 @@ files = [
 
 [[package]]
 name = "ucdp-sv"
-version = "0.10.1"
+version = "0.10.2"
 requires_python = "<4.0,>=3.10.0"
 summary = "Unified Chip Design Platform - System Verilog Support"
 groups = ["test"]
@@ -1659,8 +1659,8 @@ dependencies = [
     "ucdp>=0.11.0",
 ]
 files = [
-    {file = "ucdp_sv-0.10.1-py3-none-any.whl", hash = "sha256:4ce52737de1d52bf999bd1670b93c70cb3f4c77969356a90195ed55773fb7f65"},
-    {file = "ucdp_sv-0.10.1.tar.gz", hash = "sha256:5c7264929a268283f26b6ebbc8a7bf24372f785a22dccad2137e92e8587a199a"},
+    {file = "ucdp_sv-0.10.2-py3-none-any.whl", hash = "sha256:1dd29ac73ea3d81381b09c40247a29c3843de8165216bfed032def46c4701bd2"},
+    {file = "ucdp_sv-0.10.2.tar.gz", hash = "sha256:cdf9177081ff4e2ad9c4982717cdd585c6bdf67a45dae03f20511cc1be4fcce8"},
 ]
 
 [[package]]

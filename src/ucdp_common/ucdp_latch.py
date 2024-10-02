@@ -39,7 +39,7 @@ class UcdpLatchMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    def _build(self):
+    def _build(self) -> None:
         width_p = self.add_param(u.IntegerType(default=1), "width_p", title="Width in Bits")
         self.add_param(u.UintType(width_p), "rstval_p", title="Reset Value")
 

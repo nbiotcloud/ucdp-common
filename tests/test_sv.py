@@ -39,7 +39,7 @@ def test_top(tmp_path, testdata):
     _compile(tmp_path, top)
 
 
-def _compile(tmp_path: Path, top: u.Top):
+def _compile(tmp_path: Path, top: u.Top) -> None:
     fileset = u.FileSet.from_mod(top.mod, "*")
 
     os.environ.setdefault("SIM", "verilator")

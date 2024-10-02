@@ -49,7 +49,7 @@ class EdgeSpecType(u.AEnumType):
 
     keytype: u.UintType = u.UintType(2, default=0)
 
-    def _build(self):
+    def _build(self) -> None:
         self._add(0, "none", title="None", descr="No edge detection, edge_o is tied to 0")
         self._add(1, "rise", title="Rising edge.", descr="Detection of rising edges")
         self._add(2, "fall", title="Falling edge.", descr="Detection of falling edges")
@@ -65,7 +65,7 @@ class UcdpSyncMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    def _build(self):
+    def _build(self) -> None:
         if self.parent:
             self.parent.add_type_consts(EdgeSpecType(), exist_ok=True)
 

@@ -38,7 +38,7 @@ class UcdpClkOrMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    def _build(self):
+    def _build(self) -> None:
         # -----------------------------
         # Port List
         # -----------------------------

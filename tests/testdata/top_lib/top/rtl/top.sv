@@ -145,6 +145,28 @@ module top ( // top_lib.top.TopMod
 
 
   // ------------------------------------------------------
+  //  ucdp_common.ucdp_fifo: u_fifo
+  // ------------------------------------------------------
+  ucdp_fifo u_fifo (
+    // main_i
+    .main_clk_i           (1'b0      ), // TODO
+    .main_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0      ), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0      ), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0      ), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0      ), // TODO - Memory Built-In Self-Test
+    .rd_en_i              (1'b0      ), // TODO
+    .wr_en_i              (1'b0      ), // TODO
+    .empty_o              (          ), // TODO
+    .full_o               (          ), // TODO
+    .data_i               ({8 {1'b0}}), // TODO
+    .data_o               (          ), // TODO
+    .filling_o            (          )  // TODO
+  );
+
+
+  // ------------------------------------------------------
   //  ucdp_common.ucdp_afifo: u_afifo
   // ------------------------------------------------------
   ucdp_afifo u_afifo (

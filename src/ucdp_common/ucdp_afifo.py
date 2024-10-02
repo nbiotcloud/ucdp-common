@@ -41,7 +41,7 @@ class UcdpAfifoMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    def _build(self):
+    def _build(self) -> None:
         # -----------------------------
         # Parameter
         # -----------------------------
@@ -53,7 +53,7 @@ class UcdpAfifoMod(u.AMod):
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "clk0_i", title="Clock and Reset for clock domain 0")
         self.add_port(u.ClkRstAnType(), "clk1_i", title="Clock and Reset for clock domain 1")
-        self.add_port(DftModeType(), "dft_mode_i", title="DFT Mode")
+        self.add_port(DftModeType(), "dft_mode_i")
 
         self.add_port(WrType(awidth=awidth_p, dwidth=dwidth_p), "clk0_wr_i")
         self.add_port(RdType(awidth=awidth_p, dwidth=dwidth_p), "clk1_rd_o")
@@ -67,7 +67,7 @@ class RdType(u.AStructType):
     awidth: u.Param | int
     dwidth: u.Param | int
 
-    def _build(self):
+    def _build(self) -> None:
         self._add("ena", u.EnaType(), u.BWD, title="Read Enable")
         self._add("empty", u.BitType(default=1), title="Empty")
         self._add("data_avail", u.UintType(self.awidth), title="FIFO data avail")
@@ -80,7 +80,7 @@ class WrType(u.AStructType):
     awidth: u.Param | int
     dwidth: u.Param | int
 
-    def _build(self):
+    def _build(self) -> None:
         self._add("ena", u.BitType(default=1), title="Write Enable")
         self._add("full", u.BitType(default=1), u.BWD, title="Full")
         self._add("space_avail", u.UintType(self.awidth), u.BWD, title="FIFO space avail")
