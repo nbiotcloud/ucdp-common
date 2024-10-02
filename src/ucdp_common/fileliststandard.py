@@ -34,7 +34,10 @@ class HdlFileList(u.ModFileList):
 
     name: str = "hdl"
     filepaths: u.ToPaths = ("../{mod.libname}/{mod.topmodname}/{view}/{mod.modname}.sv",)
-    template_filepaths: u.ToPaths = ("sv.mako",)
+    template_filepaths: u.ToPaths = (
+        "../{modref.libname}/{modref.modname}/{view}/{modref.modname}.sv.mako",
+        "sv.mako",
+    )
 
     @staticmethod
     def get_mod_placeholder(mod: u.BaseMod, **kwargs: dict[str, str]) -> u.Placeholder:
@@ -42,6 +45,18 @@ class HdlFileList(u.ModFileList):
         view = "tb" if mod.is_tb else "rtl"
         return {
             "mod": mod,
+            "view": view,
+            **kwargs,
+        }
+
+    @staticmethod
+    def get_cls_placeholder(modcls: u.ModCls, **kwargs: dict[str, str]) -> u.Placeholder:
+        """Get Class Placeholder."""
+        modref = modcls.get_modref()
+        view = "tb" if u.is_tb_from_modname(modref.modname) else "rtl"
+        return {
+            "cls": modcls,
+            "modref": modref,
             "view": view,
             **kwargs,
         }

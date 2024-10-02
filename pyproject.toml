@@ -135,7 +135,7 @@ select = [
     # bandit
     "S",
     # Argument
-    "ARG",
+    # "ARG",
     # Pathlib
     "PTH",
     # Simplify
@@ -161,7 +161,7 @@ ignore = [
     # Assert
     'S101',
     # Not annotate
-    'ANN101'
+    'ANN101', 'ANN102',
 ]
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [

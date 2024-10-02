@@ -45,8 +45,8 @@ module ucdp_fifo #( // ucdp_common.ucdp_fifo.UcdpFifoMod
   input  wire                        dft_mode_scan_mode_i,  // Logic Scan-Test Mode
   input  wire                        dft_mode_scan_shift_i, // Scan Shift Phase
   input  wire                        dft_mode_mbist_mode_i, // Memory Built-In Self-Test
-  input  wire                        rd_en_i,
-  input  wire                        wr_en_i,
+  input  wire                        rd_ena_i,
+  input  wire                        wr_ena_i,
   output logic                       empty_o,
   output logic                       full_o,
   input  wire  [width_p-1:0]         data_i,
@@ -85,8 +85,8 @@ module ucdp_fifo #( // ucdp_common.ucdp_fifo.UcdpFifoMod
   // Common Signals
   assign empty_s = (filling_r == {filling_width_p {1'b0}}) ? 1'b1 : 1'b0;
   assign full_s  = (filling_r == depth_filling_p) ? 1'b1 : 1'b0;
-  assign rd_s = rd_en_i & ~empty_s;
-  assign wr_s = wr_en_i & ~full_s;
+  assign rd_s = rd_ena_i & ~empty_s;
+  assign wr_s = wr_ena_i & ~full_s;
 
   //lint_checking POOBID off
   //lint_checking PRMFSM off

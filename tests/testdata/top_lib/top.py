@@ -34,6 +34,7 @@ from ucdp_common.ucdp_clk_buf import UcdpClkBufMod
 from ucdp_common.ucdp_clk_mux import UcdpClkMuxMod
 from ucdp_common.ucdp_clk_or import UcdpClkOrMod
 from ucdp_common.ucdp_fifo import UcdpFifoMod
+from ucdp_common.ucdp_fifo_adv import UcdpFifoAdvMod
 from ucdp_common.ucdp_latch import UcdpLatchMod
 from ucdp_common.ucdp_sync import UcdpSyncMod
 
@@ -60,3 +61,6 @@ class TopMod(u.AMod):
         UcdpFifoMod(self, "u_fifo")
 
         UcdpAfifoMod(self, "u_afifo")
+
+        UcdpFifoAdvMod(self, "u_fifo_adv0", depth=60, width=17)
+        UcdpFifoAdvMod(self, "u_fifo_adv1", depth=512 + 64, width=32)

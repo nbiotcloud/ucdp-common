@@ -50,8 +50,8 @@ class UcdpFifoMod(u.AMod):
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "main_i")
         self.add_port(DftModeType(), "dft_mode_i")
-        self.add_port(u.EnaType(), "rd_en_i", title="Read Enable")
-        self.add_port(u.EnaType(), "wr_en_i", title="Write Enable")
+        self.add_port(u.EnaType(), "rd_ena_i", title="Read Enable")
+        self.add_port(u.EnaType(), "wr_ena_i", title="Write Enable")
 
         self.add_port(u.BitType(default=1), "empty_o", title="Empty")
         self.add_port(u.BitType(default=1), "full_o", title="Full")
