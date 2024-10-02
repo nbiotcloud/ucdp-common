@@ -36,7 +36,7 @@ class SelType(u.AEnumType):
 
     def _build(self) -> None:
         self._add(0, "a")
-        self._add(1, "a")
+        self._add(1, "b")
 
 
 class UcdpClkMuxMod(u.AMod):
@@ -56,3 +56,5 @@ class UcdpClkMuxMod(u.AMod):
         self.add_port(u.ClkType(), "clkb_i", title="Clock B")
         self.add_port(SelType(), "sel_i", title="Select", comment="Select")
         self.add_port(u.ClkType(), "clk_o", title="Clock output")
+
+        self.add_type_consts(SelType())

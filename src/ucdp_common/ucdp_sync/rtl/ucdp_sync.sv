@@ -40,12 +40,43 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
 ) (
   // main_i
   input  wire  main_clk_i,
-  input  wire  main_rst_an_i, // Async Reset (Low-Active)
-  input  wire  d_i,
-  output logic q_o,
-  output logic edge_o
+  input  wire  main_rst_an_i,         // Async Reset (Low-Active)
+  // dft_mode_i: Test Control
+  input  wire  dft_mode_test_mode_i,  // Test Mode
+  input  wire  dft_mode_scan_mode_i,  // Logic Scan-Test Mode
+  input  wire  dft_mode_scan_shift_i, // Scan Shift Phase
+  input  wire  dft_mode_mbist_mode_i, // Memory Built-In Self-Test
+  input  wire  d_i,                   // Data Input
+  output logic q_o,                   // Data Output
+  output logic edge_o                 // Edge Output
 );
 
+
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_sync_leaf0: u_sync_leaf0
+  // ------------------------------------------------------
+  ucdp_sync_leaf0 u_sync_leaf0 (
+    // main_i
+    .main_clk_i   (1'b0), // TODO
+    .main_rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
+    .scan_shift_i (1'b0), // TODO - Scan Shift Phase
+    .d_i          (1'b0), // TODO - Data Input
+    .q_o          (    )  // TODO - Data Output
+  );
+
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_sync_leaf1: u_sync_leaf1
+  // ------------------------------------------------------
+  ucdp_sync_leaf1 u_sync_leaf1 (
+    // main_i
+    .main_clk_i   (1'b0), // TODO
+    .main_rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
+    .scan_shift_i (1'b0), // TODO - Scan Shift Phase
+    .d_i          (1'b0), // TODO - Data Input
+    .q_o          (    )  // TODO - Data Output
+  );
 
 // GENERATE INPLACE END head ===================================================
 
@@ -55,20 +86,20 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   wire q_s;
 
   generate if (rstval_p == 1'b0) begin : proc_sync_zero
-    cld_sync_leaf_zero u_sync_leaf (
-      .clk_i       (clk_i                ),
-      .rst_an_i    (rst_an_i             ),
-      .scan_shift_i(dft_mode_scan_shift_i),
-      .d_i         (d_i                  ),
-      .q_o         (q_s                  )
+    ucdp_sync_leaf0 u_sync_leaf (
+      .main_clk_i   (main_clk_i           ),
+      .main_rst_an_i(main_rst_an_i        ),
+      .scan_shift_i (dft_mode_scan_shift_i),
+      .d_i          (d_i                  ),
+      .q_o          (q_s                  )
     );
   end else begin : proc_sync_one
-    cld_sync_leaf_one u_sync_leaf (
-      .clk_i       (clk_i                ),
-      .rst_an_i    (rst_an_i             ),
-      .scan_shift_i(dft_mode_scan_shift_i),
-      .d_i         (d_i                  ),
-      .q_o         (q_s                  )
+    ucdp_sync_leaf1 u_sync_leaf (
+      .main_clk_i   (main_clk_i           ),
+      .main_rst_an_i(main_rst_an_i        ),
+      .scan_shift_i (dft_mode_scan_shift_i),
+      .d_i          (d_i                  ),
+      .q_o          (q_s                  )
     );
   end endgenerate
 
@@ -78,11 +109,11 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   // Edge Detection
   reg q_r;
 
-  always @ (posedge clk_i or negedge rst_an_i) begin : proc_stage
-    if (rst_an_i == 1'b0) begin
-      q_r <= #`dly {rstval_p};
+  always @ (posedge main_clk_i or negedge main_rst_an_i) begin : proc_stage
+    if (main_rst_an_i == 1'b0) begin
+      q_r <= {rstval_p};
     end else begin
-      q_r <= #`dly q_s;
+      q_r <= q_s;
     end
   end
 
@@ -105,8 +136,8 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   reg checked_r = 1'b0;
   reg warned_r = 1'b0;
 
-  always @ (posedge rst_an_i) begin : proc_rst_check
-    if ((rst_an_i == 1'b1) && (norstvalchk_p == 1'b0)) begin
+  always @ (posedge main_rst_an_i) begin : proc_rst_check
+    if ((main_rst_an_i == 1'b1) && (norstvalchk_p == 1'b0)) begin
       checked_r <= 1'b1;
       if (d_i != rstval_p) begin
         if (warned_r == 1'b0) begin

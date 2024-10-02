@@ -21,33 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+"""Compile Test."""
 
-"""Latch."""
-
-import ucdp as u
-from ucdp_glbl.dft import DftModeType
-
-from ucdp_common.fileliststandard import HdlFileList
+import cocotb
 
 
-class UcdpLatchMod(u.AMod):
-    """
-    Latch.
-
-    Testable Latch.
-    """
-
-    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
-
-    def _build(self):
-        width_p = self.add_param(u.IntegerType(default=1), "width_p", title="Width in Bits")
-        self.add_param(u.UintType(width_p), "rstval_p", title="Reset Value")
-
-        # -----------------------------
-        # Port List
-        # -----------------------------
-        self.add_port(u.ClkRstAnType(), "main_i")
-        self.add_port(DftModeType(), "dft_mode_i")
-        self.add_port(u.BitType(), "ld_i", title="Load")
-        self.add_port(u.UintType(width_p), "d_i", title="Data Input", comment="Data Input")
-        self.add_port(u.UintType(width_p), "q_o", title="Data Output", comment="Data Output")
+@cocotb.test
+async def compile_only(dut):
+    """This test does nothing, it passes when the design compiled."""
+    print(dut)

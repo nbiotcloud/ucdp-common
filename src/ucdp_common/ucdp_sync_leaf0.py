@@ -22,32 +22,26 @@
 # SOFTWARE.
 #
 
-"""Latch."""
+"""Synchronizer."""
 
 import ucdp as u
-from ucdp_glbl.dft import DftModeType
+from ucdp_glbl.dft import ScanShiftType
 
-from ucdp_common.fileliststandard import HdlFileList
+from .fileliststandard import HdlFileList
 
 
-class UcdpLatchMod(u.AMod):
+class UcdpSyncLeaf0Mod(u.AMod):
     """
-    Latch.
-
-    Testable Latch.
+    Synchronizer With Reset 0.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
     def _build(self):
-        width_p = self.add_param(u.IntegerType(default=1), "width_p", title="Width in Bits")
-        self.add_param(u.UintType(width_p), "rstval_p", title="Reset Value")
-
         # -----------------------------
         # Port List
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "main_i")
-        self.add_port(DftModeType(), "dft_mode_i")
-        self.add_port(u.BitType(), "ld_i", title="Load")
-        self.add_port(u.UintType(width_p), "d_i", title="Data Input", comment="Data Input")
-        self.add_port(u.UintType(width_p), "q_o", title="Data Output", comment="Data Output")
+        self.add_port(ScanShiftType(), "scan_shift_i")
+        self.add_port(u.BitType(), "d_i", title="Data Input", comment="Data Input")
+        self.add_port(u.BitType(), "q_o", title="Data Output", comment="Data Output")

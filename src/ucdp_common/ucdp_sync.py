@@ -25,10 +25,11 @@
 """Synchronizer with Edge Detector."""
 
 import ucdp as u
+from ucdp_glbl.dft import DftModeType
 
-# from cld_dft.types import DftModeType
-# from ip_common.cld_sync_leaf import CldSyncLeafOneMod, CldSyncLeafZeroMod
 from ucdp_common.fileliststandard import HdlFileList
+from ucdp_common.ucdp_sync_leaf0 import UcdpSyncLeaf0Mod
+from ucdp_common.ucdp_sync_leaf1 import UcdpSyncLeaf1Mod
 
 
 class EdgeSpecType(u.AEnumType):
@@ -60,22 +61,6 @@ class UcdpSyncMod(u.AMod):
     Synchronizer with Edge Detector.
 
     Two-flop synchronizer with optional edge detection.
-
-    Parameters:
-
-        >>> for param in UcdpSyncMod().params: print(param.name, param.type_)
-        edge_type_p EdgeSpecType()
-        rstval_p BitType()
-        norstvalchk_p BitType()
-
-    Ports:
-
-        >>> for port in UcdpSyncMod().ports: print(port.name, port.type_)
-        main_i ClkRstAnType()
-        d_i BitType()
-        q_o BitType()
-        edge_o BitType()
-
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
@@ -113,10 +98,10 @@ class UcdpSyncMod(u.AMod):
         # Port List
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "main_i")
-        # self.add_port(DftModeType(), "dft_mode_i")
-        self.add_port(u.BitType(), "d_i", title="data input", descr="data input")
-        self.add_port(u.BitType(), "q_o", title="data output", descr="data output")
-        self.add_port(u.BitType(), "edge_o", title="edge output", descr="edge output")
+        self.add_port(DftModeType(), "dft_mode_i")
+        self.add_port(u.BitType(), "d_i", title="Data Input", comment="Data Input")
+        self.add_port(u.BitType(), "q_o", title="Data Output", comment="Data Output")
+        self.add_port(u.BitType(), "edge_o", title="Edge Output", comment="Edge Output")
 
-        # CldSyncLeafZeroMod(self, "u_sync_leaf_zero", maninst=True)
-        # CldSyncLeafOneMod(self, "u_sync_leaf_one", maninst=True)
+        UcdpSyncLeaf0Mod(self, "u_sync_leaf0", virtual=True)
+        UcdpSyncLeaf1Mod(self, "u_sync_leaf1", virtual=True)

@@ -36,7 +36,11 @@
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module top();
+module top ( // top_lib.top.TopMod
+  // main_i
+  input wire main_clk_i,
+  input wire main_rst_an_i // Async Reset (Low-Active)
+);
 
 
 
@@ -89,24 +93,54 @@ module top();
   // ------------------------------------------------------
   ucdp_latch u_latch (
     // main_i
-    .main_clk_i   (1'b0      ), // TODO
-    .main_rst_an_i(1'b0      ), // TODO - Async Reset (Low-Active)
-    .ld_i         (1'b0      ), // TODO
-    .d_i          ({1 {1'b0}}), // TODO
-    .q_o          (          )  // TODO
+    .main_clk_i           (1'b0      ), // TODO
+    .main_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0      ), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0      ), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0      ), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0      ), // TODO - Memory Built-In Self-Test
+    .ld_i                 (1'b0      ), // TODO
+    .d_i                  ({1 {1'b0}}), // TODO - Data Input
+    .q_o                  (          )  // TODO - Data Output
   );
 
 
   // ------------------------------------------------------
-  //  ucdp_common.ucdp_sync: u_sync
+  //  ucdp_common.ucdp_sync: u_sync0
   // ------------------------------------------------------
-  ucdp_sync u_sync (
+  ucdp_sync u_sync0 (
     // main_i
-    .main_clk_i   (1'b0), // TODO
-    .main_rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
-    .d_i          (1'b0), // TODO
-    .q_o          (    ), // TODO
-    .edge_o       (    )  // TODO
+    .main_clk_i           (1'b0), // TODO
+    .main_rst_an_i        (1'b0), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0), // TODO - Memory Built-In Self-Test
+    .d_i                  (1'b0), // TODO - Data Input
+    .q_o                  (    ), // TODO - Data Output
+    .edge_o               (    )  // TODO - Edge Output
+  );
+
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_sync: u_sync1
+  // ------------------------------------------------------
+  ucdp_sync #(
+    .rstval_p(1'b1)
+  ) u_sync1 (
+    // main_i
+    .main_clk_i           (1'b0), // TODO
+    .main_rst_an_i        (1'b0), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0), // TODO - Memory Built-In Self-Test
+    .d_i                  (1'b0), // TODO - Data Input
+    .q_o                  (    ), // TODO - Data Output
+    .edge_o               (    )  // TODO - Edge Output
   );
 
 endmodule // top

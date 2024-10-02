@@ -5,7 +5,7 @@
 groups = ["default", "checktypes", "doc", "format", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:88b7646e15793995930f3ff23e1878e6018be049bb11709a3738c139d4469ce7"
+content_hash = "sha256:fb90110424dae497e574dec9b98ac9ce19e810df84337027b004d0e95372f76a"
 
 [[metadata.targets]]
 requires_python = ">=3.10.0,<4.0"
@@ -241,6 +241,49 @@ files = [
 ]
 
 [[package]]
+name = "cocotb"
+version = "1.9.1"
+requires_python = ">=3.6"
+summary = "cocotb is a coroutine based cosimulation library for writing VHDL and Verilog testbenches in Python."
+groups = ["test"]
+dependencies = [
+    "find-libpython",
+]
+files = [
+    {file = "cocotb-1.9.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:1bdc70f626be2e2529cf3875a0dd418dfab46fde5f1107ade25d7c28799adb75"},
+    {file = "cocotb-1.9.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:777e1ddb203194ea311040ab068c0b4944098a1618c823613331351ac6e31f1f"},
+    {file = "cocotb-1.9.1-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:fadcf3d409f36c45ab2ca6486ccafabce6ed69b1fc5f11f0031bcf123f4105e6"},
+    {file = "cocotb-1.9.1-cp310-cp310-win32.whl", hash = "sha256:57efb38174aae826694f066d2630783516d8be34c2ea16fc6f1cd7aafa68b0f5"},
+    {file = "cocotb-1.9.1-cp310-cp310-win_amd64.whl", hash = "sha256:3613551188e40facddddeeffeb75e3d6d9ff7fcc59f908882d50e828e0be1db7"},
+    {file = "cocotb-1.9.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:4253035ba1585feb638bbecd05121aef840b4201402796b24a409c2f46ded8c2"},
+    {file = "cocotb-1.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2eb9845e31fb17b70952c9da2ed933ffab1b41cd6f7f09a182196c62f3bdc77a"},
+    {file = "cocotb-1.9.1-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:c65377e17ccc055bdb46df2b0e4b57dd4ddde62d8d25401e85a9b219576ab0a1"},
+    {file = "cocotb-1.9.1-cp311-cp311-win32.whl", hash = "sha256:ec66a1e5819656f402e4d0e1f247d5e6d674197c6057b996b692648b50b7de86"},
+    {file = "cocotb-1.9.1-cp311-cp311-win_amd64.whl", hash = "sha256:04bab5164c3c4a67967ecd2276937088db1e9c00d2a653ebb8c0fece5bf221f0"},
+    {file = "cocotb-1.9.1-cp312-cp312-macosx_10_9_x86_64.whl", hash = "sha256:08b97544e0aa1db88c623cfee6626a8e79639894d01f7bfd75b548f5cdf16c71"},
+    {file = "cocotb-1.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0e514bb390fab574327d8be00643a2afcc8b00db385d9814557bcb772c8f7d63"},
+    {file = "cocotb-1.9.1-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:0b9a51e6e2afb31049bcd0ae747f30e5aadf72112ee9edaf8fd43d0627c50154"},
+    {file = "cocotb-1.9.1-cp312-cp312-win32.whl", hash = "sha256:b67226b541d8a0e01233ba0006034ad5d769f9c602358f6b8fdddfc90efb9b47"},
+    {file = "cocotb-1.9.1-cp312-cp312-win_amd64.whl", hash = "sha256:945dbe084b909cdf6aa0220e5ea7e143508bfca223e02ca848d011f020bb42c8"},
+    {file = "cocotb-1.9.1.tar.gz", hash = "sha256:21a79c4b5c3d4d7743abd54cfbda387377a2cbdbb8af4b068fbf7745d2f55d8c"},
+]
+
+[[package]]
+name = "cocotb-test"
+version = "0.2.5"
+requires_python = ">=3.7"
+summary = ""
+groups = ["test"]
+dependencies = [
+    "cocotb>=1.5",
+    "find-libpython",
+    "pytest",
+]
+files = [
+    {file = "cocotb-test-0.2.5.tar.gz", hash = "sha256:0f19d9cfc1b7f64fe25394ff5a5d5f788f2d5b4f04b0a742f1330c4b6ebf1343"},
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
@@ -392,6 +435,16 @@ groups = ["default", "format", "test"]
 files = [
     {file = "filelock-3.16.1-py3-none-any.whl", hash = "sha256:2082e5703d51fbf98ea75855d9d5527e33d8ff23099bec374a134febee6946b0"},
     {file = "filelock-3.16.1.tar.gz", hash = "sha256:c249fbfcd5db47e5e2d6d62198e565475ee65e4831e2561c8e313fa7eb961435"},
+]
+
+[[package]]
+name = "find-libpython"
+version = "0.4.0"
+summary = "Finds the libpython associated with your environment, wherever it may be hiding"
+groups = ["test"]
+files = [
+    {file = "find_libpython-0.4.0-py3-none-any.whl", hash = "sha256:034a4253bd57da3408aefc59aeac1650150f6c1f42e10fdd31615cf1df0842e3"},
+    {file = "find_libpython-0.4.0.tar.gz", hash = "sha256:46f9cdcd397ddb563b2d7592ded3796a41c1df5222443bd9d981721c906c03e6"},
 ]
 
 [[package]]
@@ -1522,14 +1575,14 @@ files = [
 
 [[package]]
 name = "tomli"
-version = "2.0.1"
-requires_python = ">=3.7"
+version = "2.0.2"
+requires_python = ">=3.8"
 summary = "A lil' TOML parser"
 groups = ["checktypes", "test"]
 marker = "python_version < \"3.11\""
 files = [
-    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
-    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+    {file = "tomli-2.0.2-py3-none-any.whl", hash = "sha256:2ebe24485c53d303f690b0ec092806a085f07af5a5aa1464f3931eec36caaa38"},
+    {file = "tomli-2.0.2.tar.gz", hash = "sha256:d46d457a85337051c36524bc5349dd91b1877838e2979ac5ced3e710ed8a60ed"},
 ]
 
 [[package]]

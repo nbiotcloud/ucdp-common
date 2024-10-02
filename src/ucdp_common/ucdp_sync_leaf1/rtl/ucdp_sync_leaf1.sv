@@ -25,69 +25,84 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_latch
-// Data Model: ucdp_common.ucdp_latch.UcdpLatchMod
+// Module:     ucdp_common.ucdp_sync_leaf1
+// Data Model: ucdp_common.ucdp_sync_leaf1.UcdpSyncLeaf1Mod
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
-  parameter integer               width_p  = 1,
-  parameter logic   [width_p-1:0] rstval_p = {width_p {1'b0}}
-) (
+module ucdp_sync_leaf1 ( // ucdp_common.ucdp_sync_leaf1.UcdpSyncLeaf1Mod
   // main_i
-  input  wire                main_clk_i,
-  input  wire                main_rst_an_i,         // Async Reset (Low-Active)
-  // dft_mode_i: Test Control
-  input  wire                dft_mode_test_mode_i,  // Test Mode
-  input  wire                dft_mode_scan_mode_i,  // Logic Scan-Test Mode
-  input  wire                dft_mode_scan_shift_i, // Scan Shift Phase
-  input  wire                dft_mode_mbist_mode_i, // Memory Built-In Self-Test
-  input  wire                ld_i,
-  input  wire  [width_p-1:0] d_i,                   // Data Input
-  output logic [width_p-1:0] q_o                    // Data Output
+  input  wire  main_clk_i,
+  input  wire  main_rst_an_i, // Async Reset (Low-Active)
+  input  wire  scan_shift_i,  // Scan Shift Phase
+  input  wire  d_i,           // Data Input
+  output logic q_o            // Data Output
 );
 
 
 // GENERATE INPLACE END head ===================================================
 
-// lint_checking CLKINF on
 
-  `ifdef FPGA
-  //on FPGA latches as registers causes the tools to run in circles, so we replace it with a classic flop
-  reg [width_p-1:0] q_r;
+  reg       firststage_sync_line_r;
+  reg       sync_line_r;
+  wire      d_s;
 
-  always_ff @(posedge main_clk_i or negedge main_rst_an_i) begin : proc_flop
-    if(main_rst_an_i == 1'b0) begin
-      q_r <= rstval_p;
-    end else if (ld_i == 1'b1) begin
-      q_r <= d_i;
+  always @ (posedge main_clk_i or negedge main_rst_an_i) begin : proc_sync
+    if (main_rst_an_i == 1'b0) begin
+      firststage_sync_line_r <= 1'b1;
+      sync_line_r            <= 1'b1;
+    end else begin
+      firststage_sync_line_r  <= d_s;
+      sync_line_r             <= firststage_sync_line_r;
     end
   end
 
-  assign q_o = (ld_i == 1'b1) ? d_i : q_r;
-  `else
-  wire [width_p-1:0] nxt_s = (main_rst_an_i == 1'b0) ? rstval_p : d_i;
-  wire               ld_s  = ~main_rst_an_i | (ld_i & ~main_clk_i) | dft_mode_scan_mode_i;
-  reg  [width_p-1:0] q_l;
+  assign q_o = sync_line_r;
 
-  // latch
-  // lint_checking LATINF off
-  always_comb begin : proc_latch
-    if (ld_s) begin
-      q_l <= nxt_s;
+
+  // jitter emulation
+  // pragma coverage off
+`ifdef SIM
+  `ifndef CLD_SYNC_NO_JITTER
+    reg  jitter_d_r;
+    reg  jitter_sel_r;
+    reg  jitter_sel_s;
+
+    always @ (posedge main_clk_i or negedge main_rst_an_i) begin : proc_jitter_seq
+      if (main_rst_an_i == 1'b0) begin
+        jitter_d_r   <= #`dly 1'b0;
+        jitter_sel_r <= #`dly 1'b0;
+      end else begin
+        jitter_d_r   <= #`dly d_i;
+        jitter_sel_r <= #`dly jitter_sel_s;
+      end
     end
-  end
-  // lint_checking LATINF on
 
-  assign q_o = q_l;
-  `endif
+    // trigger new jitter selection only after edges and if there is no influence on the resulting signal
+    always_comb begin : proc_jitter_sel
+      if ((jitter_d_r == d_i) && (firststage_sync_line_r != sync_line_r)) begin
+        jitter_sel_s = (($random % 32'd2) == 32'd0) ? 1'b1 : 1'b0;
+      end else begin
+        jitter_sel_s = jitter_sel_r;
+      end
+    end
+
+    assign d_s = (jitter_sel_s == 1'b1) ? jitter_d_r : d_i;
+  `else // CLD_SYNC_NO_JITTER
+    assign d_s = d_i;
+  `endif // CLD_SYNC_NO_JITTER
+
+`else // SIM
+  assign d_s = d_i;
+`endif // SIM
+  // pragma coverage on
 
 
 // GENERATE INPLACE BEGIN tail() ===============================================
-endmodule // ucdp_latch
+endmodule // ucdp_sync_leaf1
 
 `default_nettype wire
 `end_keywords

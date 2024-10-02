@@ -42,8 +42,15 @@ class TopMod(u.AMod):
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="full"),)
 
     def _build(self) -> None:
+        self.add_port(u.ClkRstAnType(), "main_i")
+
         UcdpClkBufMod(self, "u_clk_buf")
+
         UcdpClkMuxMod(self, "u_clk_mux")
+
         UcdpClkOrMod(self, "u_clk_or")
+
         UcdpLatchMod(self, "u_latch")
-        UcdpSyncMod(self, "u_sync")
+
+        UcdpSyncMod(self, "u_sync0")
+        UcdpSyncMod(self, "u_sync1", paramdict={"rstval_p": 1})

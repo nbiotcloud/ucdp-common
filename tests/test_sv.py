@@ -23,10 +23,35 @@
 #
 """Systemverilog Tests."""
 
+import os
+from pathlib import Path
+
 import ucdp as u
+from cocotb_test.simulator import run
+
+SEED = 161411072024
 
 
-def test_top(testdata):
+def test_top(tmp_path, testdata):
     """Top."""
     top = u.load("top_lib.top", paths=(testdata,))
     u.generate(top, "*")
+    _compile(tmp_path, top)
+
+
+def _compile(tmp_path: Path, top: u.Top):
+    fileset = u.FileSet.from_mod(top.mod, "*")
+
+    os.environ.setdefault("SIM", "verilator")
+    os.environ.setdefault("COCOTB_REDUCED_LOG_FMT", "1")
+
+    run(
+        verilog_sources=list(fileset),
+        toplevel="top",
+        module="tests.compile_only",
+        extra_args=["-Wno-fatal"],
+        sim_build=tmp_path,
+        timescale="1ns/1ps",
+        seed=SEED,
+        make_args=["PYTHON3=python3"],
+    )
