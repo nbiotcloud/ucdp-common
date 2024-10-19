@@ -24,30 +24,82 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_clk_mux
-// Data Model: ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
+// Module:     ucdp_common.ucdp_sync_leaf_one
+// Data Model: ucdp_common.ucdp_sync_leaf_one.UcdpSyncLeafOneMod
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_clk_mux ( // ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
-  input  wire  clka_i,
-  input  wire  clkb_i,
-  input  wire  sel_i,  // Select
-  output logic clk_o
+module ucdp_sync_leaf_one ( // ucdp_common.ucdp_sync_leaf_one.UcdpSyncLeafOneMod
+  input  wire  clk_i,
+  input  wire  rst_an_i, // Async Reset (Low-Active)
+  input  wire  d_i,
+  output logic q_o
 );
 
 
 // GENERATE INPLACE END head ===================================================
 
 
-  assign clk_o = (sel_i == 1'b1) ? clkb_i : clka_i;
+  logic firststage_sync_line_r;
+  logic sync_line_r;
+  logic d_s;
+
+  always_ff @ (posedge clk_i or negedge rst_an_i) begin : proc_sync
+    if (rst_an_i == 1'b0) begin
+      firststage_sync_line_r <= 1'b1;
+      sync_line_r            <= 1'b1;
+    end else begin
+      firststage_sync_line_r  <= d_s;
+      sync_line_r             <= firststage_sync_line_r;
+    end
+  end
+
+  assign q_o = sync_line_r;
+
+
+  // jitter emulation
+  // pragma coverage off
+`ifdef SIM
+  `ifndef UCDP_SYNC_NO_JITTER
+    reg  jitter_d_r;
+    reg  jitter_sel_r;
+    reg  jitter_sel_s;
+
+    always_ff @ (posedge clk_i or negedge rst_an_i) begin : proc_jitter_seq
+      if (rst_an_i == 1'b0) begin
+        jitter_d_r   <= 1'b1;
+        jitter_sel_r <= 1'b0;
+      end else begin
+        jitter_d_r   <= d_i;
+        jitter_sel_r <= jitter_sel_s;
+      end
+    end
+
+    // trigger new jitter selection only after edges and if there is no influence on the resulting signal
+    always_comb begin : proc_jitter_sel
+      if ((jitter_d_r == d_i) && (firststage_sync_line_r != sync_line_r)) begin
+        jitter_sel_s = (($random % 32'd2) == 32'd0) ? 1'b1 : 1'b0;
+      end else begin
+        jitter_sel_s = jitter_sel_r;
+      end
+    end
+
+    assign d_s = (jitter_sel_s == 1'b1) ? jitter_d_r : d_i;
+  `else // UCDP_SYNC_NO_JITTER
+    assign d_s = d_i;
+  `endif // UCDP_SYNC_NO_JITTER
+
+`else // SIM
+  assign d_s = d_i;
+`endif // SIM
+  // pragma coverage on
 
 
 // GENERATE INPLACE BEGIN tail() ===============================================
-endmodule // ucdp_clk_mux
+endmodule // ucdp_sync_leaf_one
 
 `default_nettype wire
 `end_keywords

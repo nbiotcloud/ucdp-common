@@ -85,6 +85,16 @@ module top();
 
 
   // ------------------------------------------------------
+  //  ucdp_common.ucdp_clk_gate: u_clk_gate
+  // ------------------------------------------------------
+  ucdp_clk_gate u_clk_gate (
+    .clk_i(1'b0), // TODO
+    .en_i (1'b0), // TODO
+    .clk_o(    )  // TODO
+  );
+
+
+  // ------------------------------------------------------
   //  ucdp_common.ucdp_latch: u_latch
   // ------------------------------------------------------
   ucdp_latch u_latch (
@@ -98,15 +108,51 @@ module top();
 
 
   // ------------------------------------------------------
-  //  ucdp_common.ucdp_sync: u_sync
+  //  ucdp_common.ucdp_sync: u_sync0
   // ------------------------------------------------------
-  ucdp_sync u_sync (
-    // main_i
-    .main_clk_i   (1'b0), // TODO
-    .main_rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
-    .d_i          (1'b0), // TODO
-    .q_o          (    ), // TODO
-    .edge_o       (    )  // TODO
+  ucdp_sync #(
+    .rstval_p(1'b0)
+  ) u_sync0 (
+    .clk_i   (1'b0), // TODO
+    .rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
+    .d_i     (1'b0), // TODO
+    .q_o     (    ), // TODO
+    .edge_o  (    )  // TODO
+  );
+
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_sync: u_sync1
+  // ------------------------------------------------------
+  ucdp_sync #(
+    .rstval_p(1'b1)
+  ) u_sync1 (
+    .clk_i   (1'b0), // TODO
+    .rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
+    .d_i     (1'b0), // TODO
+    .q_o     (    ), // TODO
+    .edge_o  (    )  // TODO
+  );
+
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_afifo: u_afifo
+  // ------------------------------------------------------
+  ucdp_afifo u_afifo (
+    // src_i
+    .src_clk_i           (1'b0                 ), // TODO
+    .src_rst_an_i        (1'b0                 ), // TODO - Async Reset (Low-Active)
+    // tgt_i
+    .tgt_clk_i           (1'b0                 ), // TODO
+    .tgt_rst_an_i        (1'b0                 ), // TODO - Async Reset (Low-Active)
+    .src_wr_en_i         (1'b0                 ), // TODO
+    .src_wr_data_i       ({32'h00000008 {1'b0}}), // TODO
+    .src_wr_full_o       (                     ), // TODO
+    .src_wr_space_avail_o(                     ), // TODO
+    .tgt_rd_en_i         (1'b0                 ), // TODO
+    .tgt_rd_data_o       (                     ), // TODO
+    .tgt_rd_empty_o      (                     ), // TODO
+    .tgt_rd_data_avail_o (                     )  // TODO
   );
 
 endmodule // top

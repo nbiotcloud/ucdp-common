@@ -22,31 +22,30 @@
 # SOFTWARE.
 #
 
-"""Latch."""
+"""Synchronizer Leaf Cell."""
 
 import ucdp as u
 
 # from cld_dft.types import DftModeType
+# from ip_common.cld_sync_leaf import CldSyncLeafOneMod, CldSyncLeafZeroMod
 from ucdp_common.fileliststandard import HdlFileList
 
 
-class UcdpLatchMod(u.AMod):
+class UcdpSyncLeafZeroMod(u.AMod):
     """
-    Latch.
+    Synchronizer Leaf Zell, 1'b0 at Reset.
 
-    Testable Latch.
+    This leaf cell contains the actual synchronizer stage.
+    It is meant to be replaced by library cells during synthesis.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
     def _build(self):
-        width_p = self.add_param(u.IntegerType(default=1), "width_p", title="Width in Bits")
-        self.add_param(u.UintType(width_p), "rstval_p", title="Reset Value")
-
         # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkRstAnType(), "main_i")
-        self.add_port(u.BitType(), "ld_i", title="Load")
-        self.add_port(u.UintType(width_p), "d_i", title="Data Input")
-        self.add_port(u.UintType(width_p), "q_o", title="Data Output")
+        self.add_port(u.ClkType(), "clk_i")
+        self.add_port(u.RstAnType(), "rst_an_i")
+        self.add_port(u.BitType(), "d_i", title="data input", descr="data input")
+        self.add_port(u.BitType(), "q_o", title="data output", descr="data output")

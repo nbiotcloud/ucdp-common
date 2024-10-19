@@ -1,5 +1,4 @@
 // GENERATE INPLACE BEGIN head() ===============================================
-// =============================================================================
 //
 //  MIT License
 //
@@ -51,11 +50,11 @@ module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
 // lint_checking CLKINF on
 
   `ifdef FPGA
-  //on FPGA latches as registers causes the tools to run in circles, so we replace it with a classic flop
-  reg [width_p-1:0] q_r;
+  // on FPGA latches as registers causes the tools to run in circles, so we replace it with a classic flop
+  logic [width_p-1:0] q_r;
 
-  always_ff @(posedge clk_i or negedge rst_an_i) begin : proc_flop
-    if(rst_an_i == 1'b0) begin
+  always_ff @(posedge main_clk_i or negedge main_rst_an_i) begin : proc_flop
+    if(main_rst_an_i == 1'b0) begin
       q_r <= rstval_p;
     end else if (ld_i == 1'b1) begin
       q_r <= d_i;
@@ -64,13 +63,13 @@ module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
 
   assign q_o = (ld_i == 1'b1) ? d_i : q_r;
   `else
-  wire [width_p-1:0] nxt_s = (rst_an_i == 1'b0) ? rstval_p : d_i;
-  wire               ld_s  = ~rst_an_i | (ld_i & ~clk_i) | dft_mode_scan_mode_i;
-  reg  [width_p-1:0] q_l;
+  logic [width_p-1:0] nxt_s = (main_rst_an_i == 1'b0) ? rstval_p : d_i;
+  logic               ld_s  = ~main_rst_an_i | (ld_i & ~main_clk_i);
+  logic  [width_p-1:0] q_l;
 
   // latch
   // lint_checking LATINF off
-  always_comb begin : proc_latch
+  always_latch begin : proc_latch
     if (ld_s) begin
       q_l <= nxt_s;
     end

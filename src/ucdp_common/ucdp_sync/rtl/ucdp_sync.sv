@@ -1,5 +1,4 @@
 // GENERATE INPLACE BEGIN head() ===============================================
-// =============================================================================
 //
 //  MIT License
 //
@@ -38,9 +37,8 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   parameter logic       rstval_p      = 1'b0,
   parameter logic       norstvalchk_p = 1'b0
 ) (
-  // main_i
-  input  wire  main_clk_i,
-  input  wire  main_rst_an_i, // Async Reset (Low-Active)
+  input  wire  clk_i,
+  input  wire  rst_an_i, // Async Reset (Low-Active)
   input  wire  d_i,
   output logic q_o,
   output logic edge_o
@@ -55,20 +53,18 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   wire q_s;
 
   generate if (rstval_p == 1'b0) begin : proc_sync_zero
-    cld_sync_leaf_zero u_sync_leaf (
-      .clk_i       (clk_i                ),
-      .rst_an_i    (rst_an_i             ),
-      .scan_shift_i(dft_mode_scan_shift_i),
-      .d_i         (d_i                  ),
-      .q_o         (q_s                  )
+    ucdp_sync_leaf_zero u_sync_leaf (
+      .clk_i       (clk_i),
+      .rst_an_i    (rst_an_i),
+      .d_i         (d_i),
+      .q_o         (q_s)
     );
   end else begin : proc_sync_one
-    cld_sync_leaf_one u_sync_leaf (
-      .clk_i       (clk_i                ),
-      .rst_an_i    (rst_an_i             ),
-      .scan_shift_i(dft_mode_scan_shift_i),
-      .d_i         (d_i                  ),
-      .q_o         (q_s                  )
+    ucdp_sync_leaf_one u_sync_leaf (
+      .clk_i       (clk_i),
+      .rst_an_i    (rst_an_i),
+      .d_i         (d_i),
+      .q_o         (q_s)
     );
   end endgenerate
 
@@ -78,11 +74,11 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   // Edge Detection
   reg q_r;
 
-  always @ (posedge clk_i or negedge rst_an_i) begin : proc_stage
+  always_ff @ (posedge clk_i or negedge rst_an_i) begin : proc_stage
     if (rst_an_i == 1'b0) begin
-      q_r <= #`dly {rstval_p};
+      q_r <= rstval_p;
     end else begin
-      q_r <= #`dly q_s;
+      q_r <= q_s;
     end
   end
 
@@ -105,13 +101,13 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   reg checked_r = 1'b0;
   reg warned_r = 1'b0;
 
-  always @ (posedge rst_an_i) begin : proc_rst_check
+  always_ff @ (posedge rst_an_i) begin : proc_rst_check
     if ((rst_an_i == 1'b1) && (norstvalchk_p == 1'b0)) begin
       checked_r <= 1'b1;
       if (d_i != rstval_p) begin
         if (warned_r == 1'b0) begin
           warned_r <= 1'b1;
-          $display($time, "ps\tCLD_SYNC\tWARNING: Reset Value Mismatch %m");
+          $display($time, "ps\tUCDP_SYNC\tWARNING: Reset Value Mismatch %m");
         end
       end
     end

@@ -1,5 +1,4 @@
 // GENERATE INPLACE BEGIN head() ===============================================
-// =============================================================================
 //
 //  MIT License
 //
@@ -46,14 +45,14 @@ module ucdp_clk_or ( // ucdp_common.ucdp_clk_or.UcdpClkOrMod
 
 `ifdef SIM
   // pragma coverage off
-  `ifndef CLD_NO_CLK_VERIF
-  reg warna;
-  reg seena0;
-  reg seena1;
+  `ifndef UCDP_NO_CLK_VERIF
+  logic warna;
+  logic seena0;
+  logic seena1;
 
-  reg warnb;
-  reg seenb0;
-  reg seenb1;
+  logic warnb;
+  logic seenb0;
+  logic seenb1;
 
   initial begin: proc_init
     warna = 1'b1;
@@ -65,7 +64,7 @@ module ucdp_clk_or ( // ucdp_common.ucdp_clk_or.UcdpClkOrMod
   end
 
   //lint_checking METAEQ off
-  always @(clka_i, clkb_i) begin : proc_warn
+  always_comb begin : proc_warn
     // notify about corrupt clk just once
     if (clka_i === 1'b0) begin
       seena0 = 1'b1;
@@ -73,7 +72,7 @@ module ucdp_clk_or ( // ucdp_common.ucdp_clk_or.UcdpClkOrMod
       seena1 = 1'b1;
     end else begin
       if (warna == 1'b0) begin
-        // $display($time, "ps\t SIMERROR: %m Corrupt Clock clka_i",);
+        $display($time, "ps\t SIMERROR: %m Corrupt Clock clka_i",);
       end
       warna = 1'b1;
       seena0 = 1'b0;
@@ -89,7 +88,7 @@ module ucdp_clk_or ( // ucdp_common.ucdp_clk_or.UcdpClkOrMod
       seenb1 = 1'b1;
     end else begin
       if (warnb == 1'b0) begin
-        // $display($time, "ps\t SIMERROR: %m Corrupt Clock clkb_i",);
+        $display($time, "ps\t SIMERROR: %m Corrupt Clock clkb_i",);
       end
       warnb = 1'b1;
       seenb0 = 1'b0;
@@ -100,7 +99,7 @@ module ucdp_clk_or ( // ucdp_common.ucdp_clk_or.UcdpClkOrMod
     end
   end
   //lint_checking METAEQ on
-  `endif // CLD_NO_CLK_VERIF
+  `endif // UCDP_NO_CLK_VERIF
   // pragma coverage on
 `endif // SIM
 

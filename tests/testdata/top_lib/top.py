@@ -29,7 +29,9 @@ Top.
 import ucdp as u
 
 from ucdp_common.fileliststandard import HdlFileList
+from ucdp_common.ucdp_afifo import UcdpAfifoMod
 from ucdp_common.ucdp_clk_buf import UcdpClkBufMod
+from ucdp_common.ucdp_clk_gate import UcdpClkGateMod
 from ucdp_common.ucdp_clk_mux import UcdpClkMuxMod
 from ucdp_common.ucdp_clk_or import UcdpClkOrMod
 from ucdp_common.ucdp_latch import UcdpLatchMod
@@ -45,5 +47,8 @@ class TopMod(u.AMod):
         UcdpClkBufMod(self, "u_clk_buf")
         UcdpClkMuxMod(self, "u_clk_mux")
         UcdpClkOrMod(self, "u_clk_or")
+        UcdpClkGateMod(self, "u_clk_gate")
         UcdpLatchMod(self, "u_latch")
-        UcdpSyncMod(self, "u_sync")
+        UcdpSyncMod(self, "u_sync0", paramdict={"rstval_p": 0})
+        UcdpSyncMod(self, "u_sync1", paramdict={"rstval_p": 1})
+        UcdpAfifoMod(self, "u_afifo")

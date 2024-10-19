@@ -30,6 +30,9 @@ import ucdp as u
 # from ip_common.cld_sync_leaf import CldSyncLeafOneMod, CldSyncLeafZeroMod
 from ucdp_common.fileliststandard import HdlFileList
 
+from .ucdp_sync_leaf_one import UcdpSyncLeafOneMod
+from .ucdp_sync_leaf_zero import UcdpSyncLeafZeroMod
+
 
 class EdgeSpecType(u.AEnumType):
     """
@@ -71,7 +74,8 @@ class UcdpSyncMod(u.AMod):
     Ports:
 
         >>> for port in UcdpSyncMod().ports: print(port.name, port.type_)
-        main_i ClkRstAnType()
+        clk_i ClkType()
+        rst_an_i RstAnType()
         d_i BitType()
         q_o BitType()
         edge_o BitType()
@@ -112,11 +116,10 @@ class UcdpSyncMod(u.AMod):
         # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkRstAnType(), "main_i")
-        # self.add_port(DftModeType(), "dft_mode_i")
+        self.add_port(u.ClkType(), "clk_i")
+        self.add_port(u.RstAnType(), "rst_an_i")
         self.add_port(u.BitType(), "d_i", title="data input", descr="data input")
         self.add_port(u.BitType(), "q_o", title="data output", descr="data output")
         self.add_port(u.BitType(), "edge_o", title="edge output", descr="edge output")
-
-        # CldSyncLeafZeroMod(self, "u_sync_leaf_zero", maninst=True)
-        # CldSyncLeafOneMod(self, "u_sync_leaf_one", maninst=True)
+        UcdpSyncLeafZeroMod(self, "u_sync00", virtual=True)
+        UcdpSyncLeafOneMod(self, "u_sync1", virtual=True)

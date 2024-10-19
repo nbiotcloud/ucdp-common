@@ -22,7 +22,9 @@
 # SOFTWARE.
 #
 
-"""Clock Multiplexer."""
+"""
+Unified Chip Design Platform - Common IP - Clock Gate.
+"""
 
 import ucdp as u
 
@@ -31,9 +33,9 @@ from ucdp_common.fileliststandard import HdlFileList
 
 class UcdpClkGateMod(u.AMod):
     """
-    Clock Mux.
+    Clock Gate.
 
-    The logic is required for synthesis.
+    A latch-based clock gate for positive clock edges.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
@@ -42,6 +44,6 @@ class UcdpClkGateMod(u.AMod):
         # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkRstAnType(), "main_i")
-        self.add_port(u.EnaType(), "ena_i")
+        self.add_port(u.ClkType(), "clk_i")
+        self.add_port(u.EnaType(), "en_i")
         self.add_port(u.ClkType(), "clk_o", title="Clock output")
