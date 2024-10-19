@@ -10,3 +10,6 @@
 /site/
 /.hypothesis
 .test2ref
+tests/sim_build*/**
+**/.coverage
+**/.coverage.*

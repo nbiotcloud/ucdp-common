@@ -68,6 +68,15 @@ def test(session: nox.Session) -> None:
     print(f"Coverage report:\n\n    file://{htmlcovfile!s}\n")
 
 
+@nox.session()
+def testsv(session: nox.Session) -> None:
+    """Run System Verilog Tests - Additional Arguments are forwarded to `pytest`."""
+    _init(session)
+    session.run_always("pdm", "install", "-G", ":all")
+    with session.chdir("tests"):
+        session.run("pytest", "-vvsrA", "regression.py", *session.posargs)
+
+
 @nox.session(python=PYTHON)
 def checkdeps(session: nox.Session) -> None:
     """Check Dependencies."""
@@ -115,3 +124,11 @@ def dev(session: nox.Session) -> None:
     session.run("pip", "install", "-e", ".")
     if session.posargs:
         session.run(*session.posargs, external=True, env={"DEV": "1"})
+
+
+def _init(session: nox.Session):
+    session.install("pdm")
+    lockfile = pathlib.Path("pdm.lock")
+
+    if not lockfile.exists():
+        session.run("pdm", "lock")
