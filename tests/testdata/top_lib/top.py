@@ -35,6 +35,7 @@ from ucdp_common.ucdp_clk_gate import UcdpClkGateMod
 from ucdp_common.ucdp_clk_mux import UcdpClkMuxMod
 from ucdp_common.ucdp_clk_or import UcdpClkOrMod
 from ucdp_common.ucdp_latch import UcdpLatchMod
+from ucdp_common.ucdp_sfifo import UcdpSfifoMod
 from ucdp_common.ucdp_sync import UcdpSyncMod
 
 
@@ -52,3 +53,4 @@ class TopMod(u.AMod):
         UcdpSyncMod(self, "u_sync0", paramdict={"rstval_p": 0})
         UcdpSyncMod(self, "u_sync1", paramdict={"rstval_p": 1})
         UcdpAfifoMod(self, "u_afifo")
+        UcdpSfifoMod(self, "u_sfifo")

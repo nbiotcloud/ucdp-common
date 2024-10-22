@@ -23,44 +23,43 @@
 #
 
 """
-Unified Chip Design Platform - Common IP - Asynchronous FIFO.
+Unified Chip Design Platform - Common IP - Synchronous FIFO.
 """
 
 import ucdp as u
 
 from ucdp_common.fileliststandard import HdlFileList
-from ucdp_common.ucdp_sync import UcdpSyncMod
 
 
-class UcdpAfifoMod(u.AMod):
+class UcdpSfifoMod(u.AMod):
     """
-    Asynchronous FIFO.
+    Synchronous FIFO.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
     data_witdth: int | None = 8
-    addr_width: int | None = 4
+    fifo_depth: int | None = 4
 
     def _build(self):
         # -----------------------------
         # Parameter List
         # -----------------------------
-        dwidth_p = self.add_param(u.IntegerType(default=self.data_witdth), "dwidth_p", title="Data Width")
-        awidth_p = self.add_param(u.IntegerType(default=self.addr_width), "awidth_p", title="FIFO Address Width")
+        dwidth_p = self.add_param(u.IntegerType(default=self.data_witdth), "dwidth_p", title="FIFO Data Width")
+        depth_p = self.add_param(u.IntegerType(default=self.fifo_depth), "depth_p", title="FIFO Depth")
+        awidth_p = self.add_param(
+            u.IntegerType(default=self.parser.log2(depth_p + 1)), "awidth_p", title="FIFO Address Width"
+        )
 
-        self.add_const(u.IntegerType(default=1 << (awidth_p - 1)), "depth_p")
         # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkRstAnType(), "src_i", title="Clock and Reset for Source Domain")
-        self.add_port(u.ClkRstAnType(), "tgt_i", title="Clock and Reset for Target Domain")
-        self.add_port(u.EnaType(), "src_wr_en_i", title="Source Write Enable")
-        self.add_port(u.UintType(dwidth_p), "src_wr_data_i", title="Source Write Data")
-        self.add_port(u.BitType(), "src_wr_full_o", title="FIFO Full")
-        self.add_port(u.UintType(awidth_p), "src_wr_space_avail_o", title="FIFO Space Available")
-        self.add_port(u.EnaType(), "tgt_rd_en_i", title="Target Read Enable")
-        self.add_port(u.UintType(dwidth_p), "tgt_rd_data_o", title="Target Read Data")
-        self.add_port(u.BitType(), "tgt_rd_empty_o", title="FIFO empty")
-        self.add_port(u.UintType(awidth_p), "tgt_rd_data_avail_o", title="FIFO Data Available")
-        UcdpSyncMod(self, "u_sync", virtual=True)  # just for proper dependency resolution
+        self.add_port(u.ClkRstAnType(), "src_i", title="Clock and Reset")
+        self.add_port(u.EnaType(), "wr_en_i", title="Write Enable")
+        self.add_port(u.UintType(dwidth_p), "wr_data_i", title="Write Data")
+        self.add_port(u.BitType(), "wr_full_o", title="FIFO Full")
+        self.add_port(u.UintType(awidth_p), "wr_space_avail_o", title="FIFO Space Available")
+        self.add_port(u.EnaType(), "rd_en_i", title="Read Enable")
+        self.add_port(u.UintType(dwidth_p), "rd_data_o", title="Read Data")
+        self.add_port(u.BitType(), "rd_empty_o", title="FIFO empty")
+        self.add_port(u.UintType(awidth_p), "rd_data_avail_o", title="FIFO Data Available")

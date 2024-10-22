@@ -58,6 +58,7 @@ top_fl = [
     f"{prjroot}/src/ucdp_common/ucdp_clk_gate/rtl/ucdp_clk_gate.sv",
     f"{prjroot}/src/ucdp_common/ucdp_latch/rtl/ucdp_latch.sv",
     f"{prjroot}/src/ucdp_common/ucdp_afifo/rtl/ucdp_afifo.sv",
+    f"{prjroot}/src/ucdp_common/ucdp_sfifo/rtl/ucdp_sfifo.sv",
     f"{prjroot}/tests/testdata/top_lib/top/rtl/top.sv",
 ]
 top_fl.extend(sync_fl)
@@ -67,7 +68,15 @@ afifo_fl = [
 ]
 afifo_fl.extend(sync_fl)
 
-tests = [("compile_test", "top", top_fl), ("afifo_test", "ucdp_afifo", afifo_fl)]
+sfifo_fl = [
+    f"{prjroot}/src/ucdp_common/ucdp_sfifo/rtl/ucdp_sfifo.sv",
+]
+
+tests = [
+    ("compile_test", "top", top_fl),
+    ("afifo_test", "ucdp_afifo", afifo_fl),
+    ("sfifo_test", "ucdp_sfifo", sfifo_fl, {"depth_p": 13}),
+]
 
 
 @pytest.mark.parametrize("test", tests, ids=[f"{t[1]}:{t[0]}" for t in tests])
@@ -79,6 +88,7 @@ def test_generic(test):
         verilog_sources=test[2],
         toplevel=top,
         module=test[0],
+        parameters=test[3] if (len(test) > 3) else None,  # noqa: PLR2004
         python_search=[f"{prjroot}/tests/"],
         extra_args=["-Wno-fatal"],
         sim_build=sim_build,

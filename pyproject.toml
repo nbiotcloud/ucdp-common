@@ -165,6 +165,8 @@ ignore = [
     'S603',
     # We only use user-space code
     'S607',
+    # we are not working on cryptographic applications
+    'S311',
 ]
 [tool.ruff.lint.per-file-ignores]
 "test_*" = [

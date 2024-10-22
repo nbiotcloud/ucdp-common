@@ -33,23 +33,23 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
-  parameter logic [31:0] dwidth_p = 32'h00000008,
-  parameter logic [31:0] awidth_p = 32'h00000004
+  parameter integer dwidth_p = 8,
+  parameter integer awidth_p = 4
 ) (
   // src_i
-  input  wire                            src_clk_i,
-  input  wire                            src_rst_an_i,         // Async Reset (Low-Active)
+  input  wire                 src_clk_i,
+  input  wire                 src_rst_an_i,         // Async Reset (Low-Active)
   // tgt_i
-  input  wire                            tgt_clk_i,
-  input  wire                            tgt_rst_an_i,         // Async Reset (Low-Active)
-  input  wire                            src_wr_en_i,
-  input  wire  [dwidth_p-32'h00000001:0] src_wr_data_i,
-  output logic                           src_wr_full_o,
-  output logic [awidth_p-32'h00000001:0] src_wr_space_avail_o,
-  input  wire                            tgt_rd_en_i,
-  output logic [dwidth_p-32'h00000001:0] tgt_rd_data_o,
-  output logic                           tgt_rd_empty_o,
-  output logic [awidth_p-32'h00000001:0] tgt_rd_data_avail_o
+  input  wire                 tgt_clk_i,
+  input  wire                 tgt_rst_an_i,         // Async Reset (Low-Active)
+  input  wire                 src_wr_en_i,
+  input  wire  [dwidth_p-1:0] src_wr_data_i,
+  output logic                src_wr_full_o,
+  output logic [awidth_p-1:0] src_wr_space_avail_o,
+  input  wire                 tgt_rd_en_i,
+  output logic [dwidth_p-1:0] tgt_rd_data_o,
+  output logic                tgt_rd_empty_o,
+  output logic [awidth_p-1:0] tgt_rd_data_avail_o
 );
 
 
@@ -57,16 +57,16 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
   // ------------------------------------------------------
   //  Local Parameter
   // ------------------------------------------------------
-  localparam logic   [31:0] depth_p             = 32'h00000001 << (awidth_p - 32'h00000001);
+  localparam integer       depth_p             = 1 << (awidth_p - 1);
   // edge_spec
-  localparam integer        edge_spec_width_p   = 2;
-  localparam logic   [1:0]  edge_spec_min_p     = 2'h0;
-  localparam logic   [1:0]  edge_spec_max_p     = 2'h3;
-  localparam logic   [1:0]  edge_spec_none_e    = 2'h0;
-  localparam logic   [1:0]  edge_spec_rise_e    = 2'h1;
-  localparam logic   [1:0]  edge_spec_fall_e    = 2'h2;
-  localparam logic   [1:0]  edge_spec_any_e     = 2'h3;
-  localparam logic   [1:0]  edge_spec_default_p = 2'h0;
+  localparam integer       edge_spec_width_p   = 2;
+  localparam logic   [1:0] edge_spec_min_p     = 2'h0;
+  localparam logic   [1:0] edge_spec_max_p     = 2'h3;
+  localparam logic   [1:0] edge_spec_none_e    = 2'h0;
+  localparam logic   [1:0] edge_spec_rise_e    = 2'h1;
+  localparam logic   [1:0] edge_spec_fall_e    = 2'h2;
+  localparam logic   [1:0] edge_spec_any_e     = 2'h3;
+  localparam logic   [1:0] edge_spec_default_p = 2'h0;
 
 // GENERATE INPLACE END head ===================================================
 
@@ -115,7 +115,7 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
 
   assign src_wr_ptr_s         = src_wr_ptr_r + (((~src_wr_full_r & src_wr_en_i) == 1'b1) ? 1 : 0);
   assign src_wr_ptr_gray_s    = (src_wr_ptr_s >> 1) ^ src_wr_ptr_s;
-  assign src_wr_space_avail_s = depth_p - (src_wr_ptr_s - gray2bin_f(src_rd_ptr_gray_sync_s));
+  assign src_wr_space_avail_s = depth_p[awidth_p-1:0] - (src_wr_ptr_s - gray2bin_f(src_rd_ptr_gray_sync_s));
 
   // source clock domain sync modules
   ucdp_sync #(.edge_type_p(edge_spec_none_e), .norstvalchk_p(1'b1)) u_src_rd_ptr_gray_sync [awidth_p-1:0] (
@@ -157,7 +157,7 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
   always_ff @(posedge src_clk_alias_s or negedge src_rst_an_i) begin : proc_src_alias
     if (src_rst_an_i == 1'b0) begin
       src_wr_full_r        <= 1'b0;
-      src_wr_space_avail_r <= 1'b0;
+      src_wr_space_avail_r <= {awidth_p{1'b0}};
     end else begin
       src_wr_full_r        <= src_wr_full_s;
       src_wr_space_avail_r <= src_wr_space_avail_s;

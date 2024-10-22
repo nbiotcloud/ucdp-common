@@ -140,19 +140,37 @@ module top();
   // ------------------------------------------------------
   ucdp_afifo u_afifo (
     // src_i
-    .src_clk_i           (1'b0                 ), // TODO
-    .src_rst_an_i        (1'b0                 ), // TODO - Async Reset (Low-Active)
+    .src_clk_i           (1'b0      ), // TODO
+    .src_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
     // tgt_i
-    .tgt_clk_i           (1'b0                 ), // TODO
-    .tgt_rst_an_i        (1'b0                 ), // TODO - Async Reset (Low-Active)
-    .src_wr_en_i         (1'b0                 ), // TODO
-    .src_wr_data_i       ({32'h00000008 {1'b0}}), // TODO
-    .src_wr_full_o       (                     ), // TODO
-    .src_wr_space_avail_o(                     ), // TODO
-    .tgt_rd_en_i         (1'b0                 ), // TODO
-    .tgt_rd_data_o       (                     ), // TODO
-    .tgt_rd_empty_o      (                     ), // TODO
-    .tgt_rd_data_avail_o (                     )  // TODO
+    .tgt_clk_i           (1'b0      ), // TODO
+    .tgt_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    .src_wr_en_i         (1'b0      ), // TODO
+    .src_wr_data_i       ({8 {1'b0}}), // TODO
+    .src_wr_full_o       (          ), // TODO
+    .src_wr_space_avail_o(          ), // TODO
+    .tgt_rd_en_i         (1'b0      ), // TODO
+    .tgt_rd_data_o       (          ), // TODO
+    .tgt_rd_empty_o      (          ), // TODO
+    .tgt_rd_data_avail_o (          )  // TODO
+  );
+
+
+  // ------------------------------------------------------
+  //  ucdp_common.ucdp_sfifo: u_sfifo
+  // ------------------------------------------------------
+  ucdp_sfifo u_sfifo (
+    // src_i
+    .src_clk_i       (1'b0      ), // TODO
+    .src_rst_an_i    (1'b0      ), // TODO - Async Reset (Low-Active)
+    .wr_en_i         (1'b0      ), // TODO
+    .wr_data_i       ({8 {1'b0}}), // TODO
+    .wr_full_o       (          ), // TODO
+    .wr_space_avail_o(          ), // TODO
+    .rd_en_i         (1'b0      ), // TODO
+    .rd_data_o       (          ), // TODO
+    .rd_empty_o      (          ), // TODO
+    .rd_data_avail_o (          )  // TODO
   );
 
 endmodule // top

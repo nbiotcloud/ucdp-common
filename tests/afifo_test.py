@@ -88,6 +88,8 @@ async def afifo_test(dut):  # noqa: PLR0915
     tgt_rd_empty = dut.tgt_rd_empty_o
     tgt_rd_data_avail = dut.tgt_rd_data_avail_o
 
+    depth = 1 << (dut.awidth_p.value - 1)
+
     for src_period, tgt_period in [(18, 26), (26, 18)]:
         src_clk_gen = cocotb.start_soon(Clock(src_clk, period=src_period).start(cycles=220))
         tgt_clk_gen = cocotb.start_soon(Clock(tgt_clk, period=tgt_period).start(cycles=220))
@@ -106,23 +108,24 @@ async def afifo_test(dut):  # noqa: PLR0915
         await wait_clocks(src_clk, 10)
 
         assert src_wr_full == 0, "FIFO already full?!"
-        assert src_wr_space_avail == 8, "Avail Space Incorrect!"  # noqa: PLR2004
+        assert src_wr_space_avail == depth, "Avail Space Incorrect!"
         assert tgt_rd_empty == 1, "FIFO not empty?!"
         assert tgt_rd_data_avail == 0, "FIFO Data Avail not 0!"
 
-        for i in range(8):
+        for i in range(depth):
             src_wr_en.value = 1
             src_wr_data.value = i
             await RisingEdge(src_clk)
             src_wr_en.value = 0
             await FallingEdge(src_clk)
-            assert src_wr_space_avail == 7 - i, "Avail Space Incorrect!"
+            assert src_wr_space_avail == depth - 1 - i, "Avail Space Incorrect!"
             await wait_clocks(tgt_clk, 5)
             assert tgt_rd_data_avail == i + 1, "FIFO Data Avail Incorrect!!"
             await RisingEdge(src_clk)
+        assert src_wr_full == 1, "FIFO not full?!"
         await wait_clocks(src_clk, 3)
         await RisingEdge(tgt_clk)
-        for i in range(8):
+        for i in range(depth):
             assert tgt_rd_data == i, "FIFO Read Data Incorrect!"
             tgt_rd_en.value = 1
             await RisingEdge(tgt_clk)
@@ -134,8 +137,8 @@ async def afifo_test(dut):  # noqa: PLR0915
         assert tgt_rd_empty == 1, "FIFO not empty?!"
         await wait_clocks(src_clk, 10)
 
-        wrburst = cocotb.start_soon(push_data(20, src_clk, src_wr_en, src_wr_data, src_wr_full))
-        rdburst = cocotb.start_soon(pop_data(20, tgt_clk, tgt_rd_en, tgt_rd_data, tgt_rd_empty))
+        wrburst = cocotb.start_soon(push_data(depth * 3, src_clk, src_wr_en, src_wr_data, src_wr_full))
+        rdburst = cocotb.start_soon(pop_data(depth * 3, tgt_clk, tgt_rd_en, tgt_rd_data, tgt_rd_empty))
         await Combine(wrburst, rdburst)
 
         await Combine(src_clk_gen, tgt_clk_gen)

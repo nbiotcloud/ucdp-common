@@ -40,7 +40,7 @@ os.environ.update(
         "LANGUAGE": "en_US",
     }
 )
-nox.options.sessions = ["format", "test", "checkdeps", "checktypes", "doc"]
+nox.options.sessions = ["format", "test", "testsv", "checkdeps", "checktypes", "doc"]
 nox.options.reuse_existing_virtualenvs = True
 
 IS_DEV = bool(int(os.environ.get("DEV", "0")))
