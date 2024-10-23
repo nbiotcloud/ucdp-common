@@ -52,7 +52,7 @@ async def push_data(num, src_clk, wr_en, wr_data, wr_full):
         wr_en.value = 1
         wr_data.value = i + 0x10
         await RisingEdge(src_clk)
-        if random.randint(1, 10) > 8:  # noqa: PLR2004
+        if random.randint(1, 10) > 8:
             wr_en.value = 0
             await RisingEdge(src_clk)
     wr_en.value = 0
@@ -69,7 +69,7 @@ async def pop_data(num, src_clk, rd_en, rd_data, rd_empty):
         assert rd_data == i + 0x10, f"FIFO Read Data Incorrect! Got {rd_data} expected {i+0x10}"
         rd_en.value = 1
         await RisingEdge(src_clk)
-        if random.randint(1, 10) > 8:  # noqa: PLR2004
+        if random.randint(1, 10) > 8:
             rd_en.value = 0
             await RisingEdge(src_clk)
     rd_en.value = 0

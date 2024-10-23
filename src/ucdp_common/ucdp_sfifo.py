@@ -27,6 +27,7 @@ Unified Chip Design Platform - Common IP - Synchronous FIFO.
 """
 
 import ucdp as u
+from ucdp_glbl.dft import DftModeType
 
 from ucdp_common.fileliststandard import HdlFileList
 
@@ -41,7 +42,7 @@ class UcdpSfifoMod(u.AMod):
     data_witdth: int | None = 8
     fifo_depth: int | None = 4
 
-    def _build(self):
+    def _build(self) -> None:
         # -----------------------------
         # Parameter List
         # -----------------------------
@@ -55,6 +56,7 @@ class UcdpSfifoMod(u.AMod):
         # Port List
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "src_i", title="Clock and Reset")
+        self.add_port(DftModeType(), "dft_mode_i")
         self.add_port(u.EnaType(), "wr_en_i", title="Write Enable")
         self.add_port(u.UintType(dwidth_p), "wr_data_i", title="Write Data")
         self.add_port(u.BitType(), "wr_full_o", title="FIFO Full")

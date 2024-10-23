@@ -25,9 +25,8 @@
 """Synchronizer Leaf Cell."""
 
 import ucdp as u
+from ucdp_glbl.dft import ScanShiftType
 
-# from cld_dft.types import DftModeType
-# from ip_common.cld_sync_leaf import CldSyncLeafOneMod, CldSyncLeafZeroMod
 from ucdp_common.fileliststandard import HdlFileList
 
 
@@ -41,11 +40,11 @@ class UcdpSyncLeafZeroMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    def _build(self):
+    def _build(self) -> None:
         # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkType(), "clk_i")
-        self.add_port(u.RstAnType(), "rst_an_i")
+        self.add_port(u.ClkRstAnType(), "tgt_i")
+        self.add_port(ScanShiftType(), "scan_shift_i")
         self.add_port(u.BitType(), "d_i", title="data input", descr="data input")
         self.add_port(u.BitType(), "q_o", title="data output", descr="data output")

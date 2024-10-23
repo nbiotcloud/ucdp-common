@@ -38,10 +38,15 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
 ) (
   // src_i
   input  wire                 src_clk_i,
-  input  wire                 src_rst_an_i,         // Async Reset (Low-Active)
+  input  wire                 src_rst_an_i,          // Async Reset (Low-Active)
   // tgt_i
   input  wire                 tgt_clk_i,
-  input  wire                 tgt_rst_an_i,         // Async Reset (Low-Active)
+  input  wire                 tgt_rst_an_i,          // Async Reset (Low-Active)
+  // dft_mode_i: Test Control
+  input  wire                 dft_mode_test_mode_i,  // Test Mode
+  input  wire                 dft_mode_scan_mode_i,  // Logic Scan-Test Mode
+  input  wire                 dft_mode_scan_shift_i, // Scan Shift Phase
+  input  wire                 dft_mode_mbist_mode_i, // Memory Built-In Self-Test
   input  wire                 src_wr_en_i,
   input  wire  [dwidth_p-1:0] src_wr_data_i,
   output logic                src_wr_full_o,
@@ -119,8 +124,12 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
 
   // source clock domain sync modules
   ucdp_sync #(.edge_type_p(edge_spec_none_e), .norstvalchk_p(1'b1)) u_src_rd_ptr_gray_sync [awidth_p-1:0] (
-    .clk_i(src_clk_i),
-    .rst_an_i(src_rst_an_i),
+    .tgt_clk_i(src_clk_i),
+    .tgt_rst_an_i(src_rst_an_i),
+    .dft_mode_test_mode_i(dft_mode_test_mode_i),
+    .dft_mode_scan_mode_i(dft_mode_scan_mode_i),
+    .dft_mode_scan_shift_i(dft_mode_scan_shift_i),
+    .dft_mode_mbist_mode_i(dft_mode_mbist_mode_i),
     .d_i(tgt_rd_ptr_gray_r),
     .q_o(src_rd_ptr_gray_sync_s),
     .edge_o()
@@ -201,8 +210,12 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
 
   // target clock domain sync modules
   ucdp_sync #(.edge_type_p(edge_spec_none_e), .norstvalchk_p(1'b1)) u_tgt_wr_ptr_sync [awidth_p-1:0] (
-    .clk_i(tgt_clk_i),
-    .rst_an_i(tgt_rst_an_i),
+    .tgt_clk_i(tgt_clk_i),
+    .tgt_rst_an_i(tgt_rst_an_i),
+    .dft_mode_test_mode_i(dft_mode_test_mode_i),
+    .dft_mode_scan_mode_i(dft_mode_scan_mode_i),
+    .dft_mode_scan_shift_i(dft_mode_scan_shift_i),
+    .dft_mode_mbist_mode_i(dft_mode_mbist_mode_i),
     .d_i(src_wr_ptr_gray_r),
     .q_o(tgt_wr_ptr_gray_sync_s),
     .edge_o()

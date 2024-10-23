@@ -73,8 +73,8 @@ class UcdpSyncMod(u.AMod):
     Ports:
 
         >>> for port in UcdpSyncMod().ports: print(port.name, port.type_)
-        clk_i ClkType()
-        rst_an_i RstAnType()
+        tgt_i ClkRstAnType()
+        dft_mode_i DftModeType()
         d_i BitType()
         q_o BitType()
         edge_o BitType()

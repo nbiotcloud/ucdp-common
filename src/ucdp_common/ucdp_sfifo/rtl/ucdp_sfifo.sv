@@ -39,7 +39,12 @@ module ucdp_sfifo #( // ucdp_common.ucdp_sfifo.UcdpSfifoMod
 ) (
   // src_i
   input  wire                 src_clk_i,
-  input  wire                 src_rst_an_i,     // Async Reset (Low-Active)
+  input  wire                 src_rst_an_i,          // Async Reset (Low-Active)
+  // dft_mode_i: Test Control
+  input  wire                 dft_mode_test_mode_i,  // Test Mode
+  input  wire                 dft_mode_scan_mode_i,  // Logic Scan-Test Mode
+  input  wire                 dft_mode_scan_shift_i, // Scan Shift Phase
+  input  wire                 dft_mode_mbist_mode_i, // Memory Built-In Self-Test
   input  wire                 wr_en_i,
   input  wire  [dwidth_p-1:0] wr_data_i,
   output logic                wr_full_o,

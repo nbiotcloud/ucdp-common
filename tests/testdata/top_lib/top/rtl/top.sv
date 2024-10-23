@@ -118,11 +118,17 @@ module top();
   ucdp_sync #(
     .rstval_p(1'b0)
   ) u_sync0 (
-    .clk_i   (1'b0), // TODO
-    .rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
-    .d_i     (1'b0), // TODO
-    .q_o     (    ), // TODO
-    .edge_o  (    )  // TODO
+    // tgt_i
+    .tgt_clk_i            (1'b0), // TODO
+    .tgt_rst_an_i         (1'b0), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0), // TODO - Memory Built-In Self-Test
+    .d_i                  (1'b0), // TODO - Data Input
+    .q_o                  (    ), // TODO - Data Output
+    .edge_o               (    )  // TODO - Edge Output
   );
 
 
@@ -132,11 +138,17 @@ module top();
   ucdp_sync #(
     .rstval_p(1'b1)
   ) u_sync1 (
-    .clk_i   (1'b0), // TODO
-    .rst_an_i(1'b0), // TODO - Async Reset (Low-Active)
-    .d_i     (1'b0), // TODO
-    .q_o     (    ), // TODO
-    .edge_o  (    )  // TODO
+    // tgt_i
+    .tgt_clk_i            (1'b0), // TODO
+    .tgt_rst_an_i         (1'b0), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0), // TODO - Memory Built-In Self-Test
+    .d_i                  (1'b0), // TODO - Data Input
+    .q_o                  (    ), // TODO - Data Output
+    .edge_o               (    )  // TODO - Edge Output
   );
 
 
@@ -145,19 +157,24 @@ module top();
   // ------------------------------------------------------
   ucdp_afifo u_afifo (
     // src_i
-    .src_clk_i           (1'b0      ), // TODO
-    .src_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    .src_clk_i            (1'b0      ), // TODO
+    .src_rst_an_i         (1'b0      ), // TODO - Async Reset (Low-Active)
     // tgt_i
-    .tgt_clk_i           (1'b0      ), // TODO
-    .tgt_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
-    .src_wr_en_i         (1'b0      ), // TODO
-    .src_wr_data_i       ({8 {1'b0}}), // TODO
-    .src_wr_full_o       (          ), // TODO
-    .src_wr_space_avail_o(          ), // TODO
-    .tgt_rd_en_i         (1'b0      ), // TODO
-    .tgt_rd_data_o       (          ), // TODO
-    .tgt_rd_empty_o      (          ), // TODO
-    .tgt_rd_data_avail_o (          )  // TODO
+    .tgt_clk_i            (1'b0      ), // TODO
+    .tgt_rst_an_i         (1'b0      ), // TODO - Async Reset (Low-Active)
+    // dft_mode_i: Test Control
+    .dft_mode_test_mode_i (1'b0      ), // TODO - Test Mode
+    .dft_mode_scan_mode_i (1'b0      ), // TODO - Logic Scan-Test Mode
+    .dft_mode_scan_shift_i(1'b0      ), // TODO - Scan Shift Phase
+    .dft_mode_mbist_mode_i(1'b0      ), // TODO - Memory Built-In Self-Test
+    .src_wr_en_i          (1'b0      ), // TODO
+    .src_wr_data_i        ({8 {1'b0}}), // TODO
+    .src_wr_full_o        (          ), // TODO
+    .src_wr_space_avail_o (          ), // TODO
+    .tgt_rd_en_i          (1'b0      ), // TODO
+    .tgt_rd_data_o        (          ), // TODO
+    .tgt_rd_empty_o       (          ), // TODO
+    .tgt_rd_data_avail_o  (          )  // TODO
   );
 
 
@@ -166,85 +183,21 @@ module top();
   // ------------------------------------------------------
   ucdp_sfifo u_sfifo (
     // src_i
-    .src_clk_i       (1'b0      ), // TODO
-    .src_rst_an_i    (1'b0      ), // TODO - Async Reset (Low-Active)
-    .wr_en_i         (1'b0      ), // TODO
-    .wr_data_i       ({8 {1'b0}}), // TODO
-    .wr_full_o       (          ), // TODO
-    .wr_space_avail_o(          ), // TODO
-    .rd_en_i         (1'b0      ), // TODO
-    .rd_data_o       (          ), // TODO
-    .rd_empty_o      (          ), // TODO
-    .rd_data_avail_o (          )  // TODO
-    // clk0_i
-    .clk0_clk_i           (1'b0      ), // TODO
-    .clk0_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
-    // clk1_i
-    .clk1_clk_i           (1'b0      ), // TODO
-    .clk1_rst_an_i        (1'b0      ), // TODO - Async Reset (Low-Active)
+    .src_clk_i            (1'b0      ), // TODO
+    .src_rst_an_i         (1'b0      ), // TODO - Async Reset (Low-Active)
     // dft_mode_i: Test Control
     .dft_mode_test_mode_i (1'b0      ), // TODO - Test Mode
     .dft_mode_scan_mode_i (1'b0      ), // TODO - Logic Scan-Test Mode
     .dft_mode_scan_shift_i(1'b0      ), // TODO - Scan Shift Phase
     .dft_mode_mbist_mode_i(1'b0      ), // TODO - Memory Built-In Self-Test
-    // clk0_wr_i
-    .clk0_wr_ena_i        (1'b1      ), // TODO
-    .clk0_wr_full_o       (          ), // TODO
-    .clk0_wr_space_avail_o(          ), // TODO
-    .clk0_wr_data_i       ({8 {1'b0}}), // TODO
-    // clk1_rd_o
-    .clk1_rd_ena_i        (1'b0      ), // TODO
-    .clk1_rd_empty_o      (          ), // TODO
-    .clk1_rd_data_avail_o (          ), // TODO
-    .clk1_rd_data_o       (          )  // TODO
-  );
-
-
-  // ------------------------------------------------------
-  //  top_lib.top_fifo_adv0: u_fifo_adv0
-  // ------------------------------------------------------
-  top_fifo_adv0 u_fifo_adv0 (
-    // main_i
-    .main_clk_i           (1'b0     ), // TODO
-    .main_rst_an_i        (1'b0     ), // TODO - Async Reset (Low-Active)
-    // dft_mode_i: Test Control
-    .dft_mode_test_mode_i (1'b0     ), // TODO - Test Mode
-    .dft_mode_scan_mode_i (1'b0     ), // TODO - Logic Scan-Test Mode
-    .dft_mode_scan_shift_i(1'b0     ), // TODO - Scan Shift Phase
-    .dft_mode_mbist_mode_i(1'b0     ), // TODO - Memory Built-In Self-Test
-    .rd_ena_i             (1'b0     ), // TODO
-    .wr_ena_i             (1'b0     ), // TODO
-    .empty_o              (         ), // TODO
-    .full_o               (         ), // TODO
-    .accept_o             (         ), // TODO
-    .valid_o              (         ), // TODO
-    .data_i               (17'h00000), // TODO
-    .data_o               (         ), // TODO
-    .filling_o            (         )  // TODO
-  );
-
-
-  // ------------------------------------------------------
-  //  top_lib.top_fifo_adv1: u_fifo_adv1
-  // ------------------------------------------------------
-  top_fifo_adv1 u_fifo_adv1 (
-    // main_i
-    .main_clk_i           (1'b0        ), // TODO
-    .main_rst_an_i        (1'b0        ), // TODO - Async Reset (Low-Active)
-    // dft_mode_i: Test Control
-    .dft_mode_test_mode_i (1'b0        ), // TODO - Test Mode
-    .dft_mode_scan_mode_i (1'b0        ), // TODO - Logic Scan-Test Mode
-    .dft_mode_scan_shift_i(1'b0        ), // TODO - Scan Shift Phase
-    .dft_mode_mbist_mode_i(1'b0        ), // TODO - Memory Built-In Self-Test
-    .rd_ena_i             (1'b0        ), // TODO
-    .wr_ena_i             (1'b0        ), // TODO
-    .empty_o              (            ), // TODO
-    .full_o               (            ), // TODO
-    .accept_o             (            ), // TODO
-    .valid_o              (            ), // TODO
-    .data_i               (32'h00000000), // TODO
-    .data_o               (            ), // TODO
-    .filling_o            (            )  // TODO
+    .wr_en_i              (1'b0      ), // TODO
+    .wr_data_i            ({8 {1'b0}}), // TODO
+    .wr_full_o            (          ), // TODO
+    .wr_space_avail_o     (          ), // TODO
+    .rd_en_i              (1'b0      ), // TODO
+    .rd_data_o            (          ), // TODO
+    .rd_empty_o           (          ), // TODO
+    .rd_data_avail_o      (          )  // TODO
   );
 
 endmodule // top

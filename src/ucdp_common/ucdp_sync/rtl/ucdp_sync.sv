@@ -37,9 +37,9 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   parameter logic       rstval_p      = 1'b0,
   parameter logic       norstvalchk_p = 1'b0
 ) (
-  input  wire  clk_i,
-  input  wire  rst_an_i, // Async Reset (Low-Active)
-  input  wire  main_rst_an_i,         // Async Reset (Low-Active)
+  // tgt_i
+  input  wire  tgt_clk_i,
+  input  wire  tgt_rst_an_i,          // Async Reset (Low-Active)
   // dft_mode_i: Test Control
   input  wire  dft_mode_test_mode_i,  // Test Mode
   input  wire  dft_mode_scan_mode_i,  // Logic Scan-Test Mode
@@ -60,19 +60,19 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
 
   generate if (rstval_p == 1'b0) begin : proc_sync_zero
     ucdp_sync_leaf_zero u_sync_leaf (
-      .main_clk_i   (main_clk_i           ),
-      .main_rst_an_i(main_rst_an_i        ),
+      .tgt_clk_i    (tgt_clk_i),
+      .tgt_rst_an_i (tgt_rst_an_i),
       .scan_shift_i (dft_mode_scan_shift_i),
-      .d_i         (d_i),
-      .q_o         (q_s)
+      .d_i          (d_i),
+      .q_o          (q_s)
     );
   end else begin : proc_sync_one
     ucdp_sync_leaf_one u_sync_leaf (
-      .main_clk_i   (main_clk_i           ),
-      .main_rst_an_i(main_rst_an_i        ),
+      .tgt_clk_i    (tgt_clk_i),
+      .tgt_rst_an_i (tgt_rst_an_i),
       .scan_shift_i (dft_mode_scan_shift_i),
-      .d_i         (d_i),
-      .q_o         (q_s)
+      .d_i          (d_i),
+      .q_o          (q_s)
     );
   end endgenerate
 
@@ -82,8 +82,8 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   // Edge Detection
   reg q_r;
 
-  always @ (posedge main_clk_i or negedge main_rst_an_i) begin : proc_stage
-    if (main_rst_an_i == 1'b0) begin
+  always @ (posedge tgt_clk_i or negedge tgt_rst_an_i) begin : proc_stage
+    if (tgt_rst_an_i == 1'b0) begin
       q_r <= rstval_p;
     end else begin
       q_r <= q_s;
@@ -109,8 +109,8 @@ module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
   reg checked_r = 1'b0;
   reg warned_r = 1'b0;
 
-  always @ (posedge main_rst_an_i) begin : proc_rst_check
-    if ((main_rst_an_i == 1'b1) && (norstvalchk_p == 1'b0)) begin
+  always @ (posedge tgt_rst_an_i) begin : proc_rst_check
+    if ((tgt_rst_an_i == 1'b1) && (norstvalchk_p == 1'b0)) begin
       checked_r <= 1'b1;
       if (d_i != rstval_p) begin
         if (warned_r == 1'b0) begin

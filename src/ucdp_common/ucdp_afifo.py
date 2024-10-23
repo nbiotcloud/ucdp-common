@@ -46,7 +46,7 @@ class UcdpAfifoMod(u.AMod):
     data_witdth: int | None = 8
     addr_width: int | None = 4
 
-    def _build(self):
+    def _build(self) -> None:
         # -----------------------------
         # Parameter List
         # -----------------------------
@@ -59,6 +59,7 @@ class UcdpAfifoMod(u.AMod):
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "src_i", title="Clock and Reset for Source Domain")
         self.add_port(u.ClkRstAnType(), "tgt_i", title="Clock and Reset for Target Domain")
+        self.add_port(DftModeType(), "dft_mode_i")
         self.add_port(u.EnaType(), "src_wr_en_i", title="Source Write Enable")
         self.add_port(u.UintType(dwidth_p), "src_wr_data_i", title="Source Write Data")
         self.add_port(u.BitType(), "src_wr_full_o", title="FIFO Full")

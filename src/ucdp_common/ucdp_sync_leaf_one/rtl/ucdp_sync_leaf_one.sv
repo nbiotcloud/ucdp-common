@@ -33,8 +33,10 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_sync_leaf_one ( // ucdp_common.ucdp_sync_leaf_one.UcdpSyncLeafOneMod
-  input  wire  clk_i,
-  input  wire  rst_an_i, // Async Reset (Low-Active)
+  // tgt_i
+  input  wire  tgt_clk_i,
+  input  wire  tgt_rst_an_i, // Async Reset (Low-Active)
+  input  wire  scan_shift_i, // Scan Shift Phase
   input  wire  d_i,
   output logic q_o
 );
@@ -47,8 +49,8 @@ module ucdp_sync_leaf_one ( // ucdp_common.ucdp_sync_leaf_one.UcdpSyncLeafOneMod
   logic sync_line_r;
   logic d_s;
 
-  always_ff @ (posedge clk_i or negedge rst_an_i) begin : proc_sync
-    if (rst_an_i == 1'b0) begin
+  always_ff @ (posedge tgt_clk_i or negedge tgt_rst_an_i) begin : proc_sync
+    if (tgt_rst_an_i == 1'b0) begin
       firststage_sync_line_r <= 1'b1;
       sync_line_r            <= 1'b1;
     end else begin
@@ -68,8 +70,8 @@ module ucdp_sync_leaf_one ( // ucdp_common.ucdp_sync_leaf_one.UcdpSyncLeafOneMod
     reg  jitter_sel_r;
     reg  jitter_sel_s;
 
-    always_ff @ (posedge clk_i or negedge rst_an_i) begin : proc_jitter_seq
-      if (rst_an_i == 1'b0) begin
+    always_ff @ (posedge tgt_clk_i or negedge tgt_rst_an_i) begin : proc_jitter_seq
+      if (tgt_rst_an_i == 1'b0) begin
         jitter_d_r   <= 1'b1;
         jitter_sel_r <= 1'b0;
       end else begin

@@ -88,7 +88,7 @@ def test_generic(test):
         verilog_sources=test[2],
         toplevel=top,
         module=test[0],
-        parameters=test[3] if (len(test) > 3) else None,  # noqa: PLR2004
+        parameters=test[3] if (len(test) > 3) else None,
         python_search=[f"{prjroot}/tests/"],
         extra_args=["-Wno-fatal"],
         sim_build=sim_build,
@@ -112,10 +112,7 @@ def test_generic(test):
 
     if sim == "verilator" and gui:
         restore_path = Path(prjroot) / "tests" / f"{test[0]}.gtkw"
-        if restore_path.exists():
-            restore = str(restore_path)
-        else:
-            restore = ""
+        restore = str(restore_path) if restore_path.exists() else ""
         cmd = [
             "gtkwave",
             "-t",

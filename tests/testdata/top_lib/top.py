@@ -46,9 +46,7 @@ class TopMod(u.AMod):
 
     def _build(self) -> None:
         UcdpClkBufMod(self, "u_clk_buf")
-
         UcdpClkMuxMod(self, "u_clk_mux")
-
         UcdpClkOrMod(self, "u_clk_or")
         UcdpClkGateMod(self, "u_clk_gate")
         UcdpLatchMod(self, "u_latch")
