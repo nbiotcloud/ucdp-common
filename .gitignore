@@ -6,7 +6,7 @@
 /.pdm-python
 /dist/
 /docs.zip
-/report.xml
+**/report.xml
 /site/
 /.hypothesis
 .test2ref
