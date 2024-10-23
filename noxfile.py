@@ -126,7 +126,7 @@ def dev(session: nox.Session) -> None:
         session.run(*session.posargs, external=True, env={"DEV": "1"})
 
 
-def _init(session: nox.Session):
+def _init(session: nox.Session) -> None:
     session.install("pdm")
     lockfile = pathlib.Path("pdm.lock")
 

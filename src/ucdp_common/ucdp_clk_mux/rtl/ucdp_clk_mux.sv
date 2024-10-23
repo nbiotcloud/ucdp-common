@@ -40,10 +40,22 @@ module ucdp_clk_mux ( // ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
 );
 
 
+
+  // ------------------------------------------------------
+  //  Local Parameter
+  // ------------------------------------------------------
+  // sel
+  localparam integer sel_width_p   = 1;
+  localparam logic   sel_min_p     = 1'b0;
+  localparam logic   sel_max_p     = 1'b1;
+  localparam logic   sel_a_e       = 1'b0;
+  localparam logic   sel_b_e       = 1'b1;
+  localparam logic   sel_default_p = 1'b0;
+
 // GENERATE INPLACE END head ===================================================
 
 
-  assign clk_o = (sel_i == 1'b1) ? clkb_i : clka_i;
+  assign clk_o = (sel_i == sel_b_e) ? clkb_i : clka_i;
 
 
 // GENERATE INPLACE BEGIN tail() ===============================================

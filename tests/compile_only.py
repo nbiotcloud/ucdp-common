@@ -21,26 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+"""Compile Test."""
 
-"""Clock Buffer."""
-
-import ucdp as u
-
-from ucdp_common.fileliststandard import HdlFileList
+import cocotb
 
 
-class UcdpClkBufMod(u.AMod):
-    """
-    Clock Buffer.
-
-    The logic is required for synthesis.
-    """
-
-    filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
-
-    def _build(self) -> None:
-        # -----------------------------
-        # Port List
-        # -----------------------------
-        self.add_port(u.ClkType(), "clk_i", title="Clock input")
-        self.add_port(u.ClkType(), "clk_o", title="Clock output")
+@cocotb.test
+async def compile_only(dut):
+    """This test does nothing, it passes when the design compiled."""
+    print(dut)

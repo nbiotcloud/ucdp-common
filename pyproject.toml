@@ -60,7 +60,7 @@ test = [
     "coveralls>=3.3.1",
     "pytest-cov>=5.0.0",
     "test2ref>=0.4.2",
-    "ucdp-sv>=0.9.1",
+    "ucdp-sv>=0.10.2",
 ]
 checktypes = [
     "mypy>=1.9.0",
@@ -132,7 +132,7 @@ select = [
     # pyupgrade
     "UP",
     # annotation
-    # "ANN"
+    "ANN",
     # bandit
     "S",
     # Argument
@@ -140,7 +140,7 @@ select = [
     # Pathlib
     "PTH",
     # Simplify
-    # "SIM",
+    "SIM",
     # Return
     "RET",
     # Raise
@@ -161,6 +161,8 @@ ignore = [
     'UP038',
     # Assert
     'S101',
+    # Not annotate
+    'ANN101', 'ANN102',
     # Ignore false-positive subprocess check (https://github.com/astral-sh/ruff/issues/4045)
     'S603',
     # We only use user-space code
@@ -169,11 +171,14 @@ ignore = [
     'S311',
 ]
 [tool.ruff.lint.per-file-ignores]
-"test_*" = [
+"tests/*" = [
     # Magic Values
     "PLR2004",
     # Argument
     "ARG001",
+    # Annotate
+    "ANN001",
+    "ANN201",
 ]
 
 [tool.ruff.lint.pydocstyle]

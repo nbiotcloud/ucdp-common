@@ -38,10 +38,15 @@ module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
 ) (
   // main_i
   input  wire                main_clk_i,
-  input  wire                main_rst_an_i, // Async Reset (Low-Active)
+  input  wire                main_rst_an_i,         // Async Reset (Low-Active)
+  // dft_mode_i: Test Control
+  input  wire                dft_mode_test_mode_i,  // Test Mode
+  input  wire                dft_mode_scan_mode_i,  // Logic Scan-Test Mode
+  input  wire                dft_mode_scan_shift_i, // Scan Shift Phase
+  input  wire                dft_mode_mbist_mode_i, // Memory Built-In Self-Test
   input  wire                ld_i,
-  input  wire  [width_p-1:0] d_i,
-  output logic [width_p-1:0] q_o
+  input  wire  [width_p-1:0] d_i,                   // Data Input
+  output logic [width_p-1:0] q_o                    // Data Output
 );
 
 
@@ -64,7 +69,7 @@ module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
   assign q_o = (ld_i == 1'b1) ? d_i : q_r;
   `else
   logic [width_p-1:0] nxt_s = (main_rst_an_i == 1'b0) ? rstval_p : d_i;
-  logic               ld_s  = ~main_rst_an_i | (ld_i & ~main_clk_i);
+  logic               ld_s  = ~main_rst_an_i | (ld_i & ~main_clk_i) | dft_mode_scan_mode_i;
   logic  [width_p-1:0] q_l;
 
   // latch

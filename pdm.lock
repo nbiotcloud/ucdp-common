@@ -5,7 +5,7 @@
 groups = ["default", "checktypes", "doc", "format", "test"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:496bf1bbc90e93ad03f17c1ba33cf2d9ff1136af0a168862c524ab6bb34a935c"
+content_hash = "sha256:6c5b355339c94d3a31671961edd2879591b217855d71f7701a6a90510ee5b771"
 
 [[package]]
 name = "aligntext"

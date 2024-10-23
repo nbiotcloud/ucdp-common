@@ -22,25 +22,39 @@
 # SOFTWARE.
 #
 
-"""Clock Buffer."""
+"""Asynchronous FIFO."""
 
 import ucdp as u
+from ucdp_glbl.dft import DftModeType
 
 from ucdp_common.fileliststandard import HdlFileList
 
 
-class UcdpClkBufMod(u.AMod):
+class UcdpFifoMod(u.AMod):
     """
-    Clock Buffer.
-
-    The logic is required for synthesis.
+    Synchronous FIFO.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
     def _build(self) -> None:
         # -----------------------------
+        # Parameter List
+        # -----------------------------
+        width_p = self.add_param(u.IntegerType(default=8), "width_p", title="data width.")
+        depth_p = self.add_param(u.IntegerType(default=8), "depth_p", title="depth.")
+        filling_width_p = self.add_param(u.IntegerType(default=u.log2(depth_p + 1)), "filling_width_p")
+
+        # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkType(), "clk_i", title="Clock input")
-        self.add_port(u.ClkType(), "clk_o", title="Clock output")
+        self.add_port(u.ClkRstAnType(), "main_i")
+        self.add_port(DftModeType(), "dft_mode_i")
+        self.add_port(u.EnaType(), "rd_ena_i", title="Read Enable")
+        self.add_port(u.EnaType(), "wr_ena_i", title="Write Enable")
+
+        self.add_port(u.BitType(default=1), "empty_o", title="Empty")
+        self.add_port(u.BitType(default=1), "full_o", title="Full")
+        self.add_port(u.UintType(width_p), "data_i", title="Input Data Port")
+        self.add_port(u.UintType(width_p), "data_o", title="Output Data Port")
+        self.add_port(u.UintType(filling_width_p), "filling_o", title="Fill status.")

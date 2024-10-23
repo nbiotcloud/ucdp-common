@@ -22,18 +22,17 @@
 # SOFTWARE.
 #
 
-"""Clock Buffer."""
+"""Synchronizer."""
 
 import ucdp as u
+from ucdp_glbl.dft import ScanShiftType
 
-from ucdp_common.fileliststandard import HdlFileList
+from .fileliststandard import HdlFileList
 
 
-class UcdpClkBufMod(u.AMod):
+class UcdpSyncLeaf0Mod(u.AMod):
     """
-    Clock Buffer.
-
-    The logic is required for synthesis.
+    Synchronizer With Reset 0.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
@@ -42,5 +41,7 @@ class UcdpClkBufMod(u.AMod):
         # -----------------------------
         # Port List
         # -----------------------------
-        self.add_port(u.ClkType(), "clk_i", title="Clock input")
-        self.add_port(u.ClkType(), "clk_o", title="Clock output")
+        self.add_port(u.ClkRstAnType(), "main_i")
+        self.add_port(ScanShiftType(), "scan_shift_i")
+        self.add_port(u.BitType(), "d_i", title="Data Input", comment="Data Input")
+        self.add_port(u.BitType(), "q_o", title="Data Output", comment="Data Output")

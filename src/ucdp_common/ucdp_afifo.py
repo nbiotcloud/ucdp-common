@@ -27,6 +27,7 @@ Unified Chip Design Platform - Common IP - Asynchronous FIFO.
 """
 
 import ucdp as u
+from ucdp_glbl.dft import DftModeType
 
 from ucdp_common.fileliststandard import HdlFileList
 from ucdp_common.ucdp_sync import UcdpSyncMod
@@ -35,6 +36,9 @@ from ucdp_common.ucdp_sync import UcdpSyncMod
 class UcdpAfifoMod(u.AMod):
     """
     Asynchronous FIFO.
+
+    A-FIFO is designed according a paper from Clifford E. Cummings and Peter Alfke.
+    The paper location is  http://www.sunburst-design.com/papers/CummingsSNUG2002SJ_FIFO1.pdf.
     """
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)

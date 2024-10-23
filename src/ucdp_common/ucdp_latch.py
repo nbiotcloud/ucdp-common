@@ -25,8 +25,8 @@
 """Latch."""
 
 import ucdp as u
+from ucdp_glbl.dft import DftModeType
 
-# from cld_dft.types import DftModeType
 from ucdp_common.fileliststandard import HdlFileList
 
 
@@ -39,7 +39,7 @@ class UcdpLatchMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    def _build(self):
+    def _build(self) -> None:
         width_p = self.add_param(u.IntegerType(default=1), "width_p", title="Width in Bits")
         self.add_param(u.UintType(width_p), "rstval_p", title="Reset Value")
 
@@ -47,6 +47,7 @@ class UcdpLatchMod(u.AMod):
         # Port List
         # -----------------------------
         self.add_port(u.ClkRstAnType(), "main_i")
+        self.add_port(DftModeType(), "dft_mode_i")
         self.add_port(u.BitType(), "ld_i", title="Load")
-        self.add_port(u.UintType(width_p), "d_i", title="Data Input")
-        self.add_port(u.UintType(width_p), "q_o", title="Data Output")
+        self.add_port(u.UintType(width_p), "d_i", title="Data Input", comment="Data Input")
+        self.add_port(u.UintType(width_p), "q_o", title="Data Output", comment="Data Output")
