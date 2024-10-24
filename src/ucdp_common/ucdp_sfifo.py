@@ -39,15 +39,12 @@ class UcdpSfifoMod(u.AMod):
 
     filelists: u.ClassVar[u.ModFileLists] = (HdlFileList(gen="inplace"),)
 
-    data_witdth: int | None = 8
-    fifo_depth: int | None = 4
-
     def _build(self) -> None:
         # -----------------------------
         # Parameter List
         # -----------------------------
-        dwidth_p = self.add_param(u.IntegerType(default=self.data_witdth), "dwidth_p", title="FIFO Data Width")
-        depth_p = self.add_param(u.IntegerType(default=self.fifo_depth), "depth_p", title="FIFO Depth")
+        dwidth_p = self.add_param(u.IntegerType(default=8), "dwidth_p", title="FIFO Data Width")
+        depth_p = self.add_param(u.IntegerType(default=4), "depth_p", title="FIFO Depth")
         awidth_p = self.add_param(
             u.IntegerType(default=self.parser.log2(depth_p + 1)), "awidth_p", title="FIFO Address Width"
         )
