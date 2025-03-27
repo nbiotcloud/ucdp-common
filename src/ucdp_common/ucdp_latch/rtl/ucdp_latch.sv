@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,18 +33,19 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
-  parameter integer               width_p  = 1,
-  parameter logic   [width_p-1:0] rstval_p = {width_p {1'b0}}
+  parameter integer               width_p  = 1,               // Width in Bits
+  parameter logic   [width_p-1:0] rstval_p = {width_p {1'b0}} // Reset Value
 ) (
-  // main_i
-  input  wire                main_clk_i,
+  // main_i: Clock and Reset
+  input  wire                main_clk_i,            // Clock
   input  wire                main_rst_an_i,         // Async Reset (Low-Active)
   // dft_mode_i: Test Control
   input  wire                dft_mode_test_mode_i,  // Test Mode
   input  wire                dft_mode_scan_mode_i,  // Logic Scan-Test Mode
   input  wire                dft_mode_scan_shift_i, // Scan Shift Phase
   input  wire                dft_mode_mbist_mode_i, // Memory Built-In Self-Test
-  input  wire                ld_i,
+  // -
+  input  wire                ld_i,                  // Load
   input  wire  [width_p-1:0] d_i,                   // Data Input
   output logic [width_p-1:0] q_o                    // Data Output
 );

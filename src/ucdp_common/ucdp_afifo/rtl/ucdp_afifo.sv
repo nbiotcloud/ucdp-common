@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,28 +33,29 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
-  parameter integer dwidth_p = 8,
-  parameter integer awidth_p = 4
+  parameter integer dwidth_p = 8, // Data Width
+  parameter integer awidth_p = 4  // FIFO Address Width
 ) (
-  // src_i
-  input  wire                 src_clk_i,
+  // src_i: Clock and Reset for Source Domain
+  input  wire                 src_clk_i,             // Clock
   input  wire                 src_rst_an_i,          // Async Reset (Low-Active)
-  // tgt_i
-  input  wire                 tgt_clk_i,
+  // tgt_i: Clock and Reset for Target Domain
+  input  wire                 tgt_clk_i,             // Clock
   input  wire                 tgt_rst_an_i,          // Async Reset (Low-Active)
   // dft_mode_i: Test Control
   input  wire                 dft_mode_test_mode_i,  // Test Mode
   input  wire                 dft_mode_scan_mode_i,  // Logic Scan-Test Mode
   input  wire                 dft_mode_scan_shift_i, // Scan Shift Phase
   input  wire                 dft_mode_mbist_mode_i, // Memory Built-In Self-Test
-  input  wire                 src_wr_en_i,
-  input  wire  [dwidth_p-1:0] src_wr_data_i,
-  output logic                src_wr_full_o,
-  output logic [awidth_p-1:0] src_wr_space_avail_o,
-  input  wire                 tgt_rd_en_i,
-  output logic [dwidth_p-1:0] tgt_rd_data_o,
-  output logic                tgt_rd_empty_o,
-  output logic [awidth_p-1:0] tgt_rd_data_avail_o
+  // -
+  input  wire                 src_wr_en_i,           // Source Write Enable
+  input  wire  [dwidth_p-1:0] src_wr_data_i,         // Source Write Data
+  output logic                src_wr_full_o,         // FIFO Full
+  output logic [awidth_p-1:0] src_wr_space_avail_o,  // FIFO Space Available
+  input  wire                 tgt_rd_en_i,           // Target Read Enable
+  output logic [dwidth_p-1:0] tgt_rd_data_o,         // Target Read Data
+  output logic                tgt_rd_empty_o,        // FIFO empty
+  output logic [awidth_p-1:0] tgt_rd_data_avail_o    // FIFO Data Available
 );
 
 
@@ -64,14 +65,14 @@ module ucdp_afifo #( // ucdp_common.ucdp_afifo.UcdpAfifoMod
   // ------------------------------------------------------
   localparam integer       depth_p             = 1 << (awidth_p - 1);
   // edge_spec
-  localparam integer       edge_spec_width_p   = 2;
-  localparam logic   [1:0] edge_spec_min_p     = 2'h0;
-  localparam logic   [1:0] edge_spec_max_p     = 2'h3;
-  localparam logic   [1:0] edge_spec_none_e    = 2'h0;
-  localparam logic   [1:0] edge_spec_rise_e    = 2'h1;
-  localparam logic   [1:0] edge_spec_fall_e    = 2'h2;
-  localparam logic   [1:0] edge_spec_any_e     = 2'h3;
-  localparam logic   [1:0] edge_spec_default_p = 2'h0;
+  localparam integer       edge_spec_width_p   = 2;                   // Width in Bits
+  localparam logic   [1:0] edge_spec_min_p     = 2'h0;                // Minimal Value
+  localparam logic   [1:0] edge_spec_max_p     = 2'h3;                // Maximal Value
+  localparam logic   [1:0] edge_spec_none_e    = 2'h0;                // None
+  localparam logic   [1:0] edge_spec_rise_e    = 2'h1;                // Rising edge.
+  localparam logic   [1:0] edge_spec_fall_e    = 2'h2;                // Falling edge.
+  localparam logic   [1:0] edge_spec_any_e     = 2'h3;                // Any edge.
+  localparam logic   [1:0] edge_spec_default_p = 2'h0;                // Default Value
 
 // GENERATE INPLACE END head ===================================================
 

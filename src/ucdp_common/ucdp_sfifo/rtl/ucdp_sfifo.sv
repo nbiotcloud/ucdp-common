@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,26 +33,27 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_sfifo #( // ucdp_common.ucdp_sfifo.UcdpSfifoMod
-  parameter integer dwidth_p = 8,
-  parameter integer depth_p  = 4,
-  parameter integer awidth_p = $clog2(depth_p + 1)
+  parameter integer dwidth_p = 8,                  // FIFO Data Width
+  parameter integer depth_p  = 4,                  // FIFO Depth
+  parameter integer awidth_p = $clog2(depth_p + 1) // FIFO Address Width
 ) (
-  // src_i
-  input  wire                 src_clk_i,
+  // src_i: Clock and Reset
+  input  wire                 src_clk_i,             // Clock
   input  wire                 src_rst_an_i,          // Async Reset (Low-Active)
   // dft_mode_i: Test Control
   input  wire                 dft_mode_test_mode_i,  // Test Mode
   input  wire                 dft_mode_scan_mode_i,  // Logic Scan-Test Mode
   input  wire                 dft_mode_scan_shift_i, // Scan Shift Phase
   input  wire                 dft_mode_mbist_mode_i, // Memory Built-In Self-Test
-  input  wire                 wr_en_i,
-  input  wire  [dwidth_p-1:0] wr_data_i,
-  output logic                wr_full_o,
-  output logic [awidth_p-1:0] wr_space_avail_o,
-  input  wire                 rd_en_i,
-  output logic [dwidth_p-1:0] rd_data_o,
-  output logic                rd_empty_o,
-  output logic [awidth_p-1:0] rd_data_avail_o
+  // -
+  input  wire                 wr_en_i,               // Write Enable
+  input  wire  [dwidth_p-1:0] wr_data_i,             // Write Data
+  output logic                wr_full_o,             // FIFO Full
+  output logic [awidth_p-1:0] wr_space_avail_o,      // FIFO Space Available
+  input  wire                 rd_en_i,               // Read Enable
+  output logic [dwidth_p-1:0] rd_data_o,             // Read Data
+  output logic                rd_empty_o,            // FIFO empty
+  output logic [awidth_p-1:0] rd_data_avail_o        // FIFO Data Available
 );
 
 

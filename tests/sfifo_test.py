@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2024 nbiotcloud
+# Copyright (c) 2024-2025 nbiotcloud
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ async def pop_data(num, src_clk, rd_en, rd_data, rd_empty):
         while rd_empty.value == 1:
             rd_en.value = 0
             await RisingEdge(src_clk)
-        assert rd_data == i + 0x10, f"FIFO Read Data Incorrect! Got {rd_data} expected {i+0x10}"
+        assert rd_data == i + 0x10, f"FIFO Read Data Incorrect! Got {rd_data} expected {i + 0x10}"
         rd_en.value = 1
         await RisingEdge(src_clk)
         if random.randint(1, 10) > 8:

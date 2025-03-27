@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,18 +33,19 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
-  parameter logic [1:0] edge_type_p   = 2'h0,
-  parameter logic       rstval_p      = 1'b0,
-  parameter logic       norstvalchk_p = 1'b0
+  parameter logic [1:0] edge_type_p   = 2'h0, // Type of edge detection
+  parameter logic       rstval_p      = 1'b0, // Reset Value
+  parameter logic       norstvalchk_p = 1'b0  // No Reset Value Check
 ) (
-  // tgt_i
-  input  wire  tgt_clk_i,
+  // tgt_i: Clock and Reset
+  input  wire  tgt_clk_i,             // Clock
   input  wire  tgt_rst_an_i,          // Async Reset (Low-Active)
   // dft_mode_i: Test Control
   input  wire  dft_mode_test_mode_i,  // Test Mode
   input  wire  dft_mode_scan_mode_i,  // Logic Scan-Test Mode
   input  wire  dft_mode_scan_shift_i, // Scan Shift Phase
   input  wire  dft_mode_mbist_mode_i, // Memory Built-In Self-Test
+  // -
   input  wire  d_i,                   // Data Input
   output logic q_o,                   // Data Output
   output logic edge_o                 // Edge Output

@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,10 +33,10 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_clk_mux ( // ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
-  input  wire  clka_i,
-  input  wire  clkb_i,
+  input  wire  clka_i, // Clock A
+  input  wire  clkb_i, // Clock B
   input  wire  sel_i,  // Select
-  output logic clk_o
+  output logic clk_o   // Clock output
 );
 
 
@@ -45,12 +45,12 @@ module ucdp_clk_mux ( // ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
   //  Local Parameter
   // ------------------------------------------------------
   // sel
-  localparam integer sel_width_p   = 1;
-  localparam logic   sel_min_p     = 1'b0;
-  localparam logic   sel_max_p     = 1'b1;
+  localparam integer sel_width_p   = 1;    // Width in Bits
+  localparam logic   sel_min_p     = 1'b0; // Minimal Value
+  localparam logic   sel_max_p     = 1'b1; // Maximal Value
   localparam logic   sel_a_e       = 1'b0;
   localparam logic   sel_b_e       = 1'b1;
-  localparam logic   sel_default_p = 1'b0;
+  localparam logic   sel_default_p = 1'b0; // Default Value
 
 // GENERATE INPLACE END head ===================================================
 
