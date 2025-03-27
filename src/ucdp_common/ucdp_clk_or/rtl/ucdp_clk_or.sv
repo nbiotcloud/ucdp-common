@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,9 +33,9 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_clk_or ( // ucdp_common.ucdp_clk_or.UcdpClkOrMod
-  input  wire  clka_i,
-  input  wire  clkb_i,
-  output logic clk_o
+  input  wire  clka_i, // Clock A
+  input  wire  clkb_i, // Clock B
+  output logic clk_o   // Clock output
 );
 
 

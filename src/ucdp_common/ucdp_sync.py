@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# Copyright (c) 2024 nbiotcloud
+# Copyright (c) 2024-2025 nbiotcloud
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -108,7 +108,7 @@ class UcdpSyncMod(u.AMod):
             title="No Reset Value Check",
             descr=(
                 "Do NOT ensure Data Input Value is identical to rstval_p at reset release. "
-                "This parameter has NO influence on the implemation. Simulation Only."
+                "This parameter has NO influence on the implementation. Simulation Only."
             ),
         )
 

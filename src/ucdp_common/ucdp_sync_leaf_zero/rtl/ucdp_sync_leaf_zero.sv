@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,12 +33,13 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_sync_leaf_zero ( // ucdp_common.ucdp_sync_leaf_zero.UcdpSyncLeafZeroMod
-  // tgt_i
-  input  wire  tgt_clk_i,
+  // tgt_i: Clock and Reset
+  input  wire  tgt_clk_i,    // Clock
   input  wire  tgt_rst_an_i, // Async Reset (Low-Active)
+  // -
   input  wire  scan_shift_i, // Scan Shift Phase
-  input  wire  d_i,
-  output logic q_o
+  input  wire  d_i,          // data input
+  output logic q_o           // data output
 );
 
 

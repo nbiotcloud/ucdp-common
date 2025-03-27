@@ -2,7 +2,7 @@
 //
 //  MIT License
 //
-//  Copyright (c) 2024 nbiotcloud
+//  Copyright (c) 2024-2025 nbiotcloud
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -33,9 +33,9 @@
 `default_nettype none  // implicit wires are forbidden
 
 module ucdp_clk_gate ( // ucdp_common.ucdp_clk_gate.UcdpClkGateMod
-  input  wire  clk_i,
-  input  wire  en_i,
-  output logic clk_o
+  input  wire  clk_i, // Clock
+  input  wire  en_i,  // Enable
+  output logic clk_o  // Clock output
 );
 
 
