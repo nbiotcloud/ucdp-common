@@ -23,8 +23,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - name: Install Verilator
-        run: sudo apt install verilator
       - name: Run all
         run: make all
       - name: Upload coverage data to coveralls.io
