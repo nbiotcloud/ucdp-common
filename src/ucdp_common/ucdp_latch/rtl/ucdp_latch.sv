@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_latch
-// Data Model: ucdp_common.ucdp_latch.UcdpLatchMod
+// Library:    ucdp_common
+// Module:     ucdp_latch
+// Data Model: UcdpLatchMod
+//             ucdp_common/ucdp_latch.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_latch #( // ucdp_common.ucdp_latch.UcdpLatchMod
+module ucdp_latch #(
   parameter integer               width_p  = 1,               // Width in Bits
   parameter logic   [width_p-1:0] rstval_p = {width_p {1'b0}} // Reset Value
 ) (

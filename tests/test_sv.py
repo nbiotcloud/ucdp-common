@@ -25,13 +25,16 @@
 
 import os
 from pathlib import Path
+from shutil import which
 
 import ucdp as u
 from cocotb_test.simulator import run
+from pytest import mark
 
 SEED = 161411072024
 
 
+@mark.skipif(not which("verilator"), reason="no-verilator")
 def test_top(tmp_path, testdata):
     """Top."""
     top = u.load("top_lib.top", paths=(testdata,))
