@@ -24,17 +24,17 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
       - name: Run all
-        run: make all
+        uses: nick-fields/retry@v3
         with:
+          timeout_minutes: 10
           max_attempts: 3
+          command: make all
       - name: Upload coverage data to coveralls.io
         run: uv run --frozen -- coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
           COVERALLS_PARALLEL: true
-        with:
-          max_attempts: 3
 
   coveralls:
     name: Indicate completion to coveralls.io
@@ -53,8 +53,6 @@ jobs:
         run: uv run --frozen -- coveralls --service=github --finish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          max_attempts: 3
 
   publish:
     if: github.event_name == 'push' && github.ref_type == 'tag'
