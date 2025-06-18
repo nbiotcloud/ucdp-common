@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_clk_gate
-// Data Model: ucdp_common.ucdp_clk_gate.UcdpClkGateMod
+// Library:    ucdp_common
+// Module:     ucdp_clk_gate
+// Data Model: UcdpClkGateMod
+//             ucdp_common/ucdp_clk_gate.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_clk_gate ( // ucdp_common.ucdp_clk_gate.UcdpClkGateMod
+module ucdp_clk_gate (
   input  wire  clk_i, // Clock
   input  wire  en_i,  // Enable
   output logic clk_o  // Clock output

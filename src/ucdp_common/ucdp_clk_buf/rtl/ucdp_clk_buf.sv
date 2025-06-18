@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_clk_buf
-// Data Model: ucdp_common.ucdp_clk_buf.UcdpClkBufMod
+// Library:    ucdp_common
+// Module:     ucdp_clk_buf
+// Data Model: UcdpClkBufMod
+//             ucdp_common/ucdp_clk_buf.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_clk_buf ( // ucdp_common.ucdp_clk_buf.UcdpClkBufMod
+module ucdp_clk_buf (
   input  wire  clk_i, // Clock input
   output logic clk_o  // Clock output
 );

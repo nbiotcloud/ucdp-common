@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_sync_leaf_zero
-// Data Model: ucdp_common.ucdp_sync_leaf_zero.UcdpSyncLeafZeroMod
+// Library:    ucdp_common
+// Module:     ucdp_sync_leaf_zero
+// Data Model: UcdpSyncLeafZeroMod
+//             ucdp_common/ucdp_sync_leaf_zero.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_sync_leaf_zero ( // ucdp_common.ucdp_sync_leaf_zero.UcdpSyncLeafZeroMod
+module ucdp_sync_leaf_zero (
   // tgt_i: Clock and Reset
   input  wire  tgt_clk_i,    // Clock
   input  wire  tgt_rst_an_i, // Async Reset (Low-Active)

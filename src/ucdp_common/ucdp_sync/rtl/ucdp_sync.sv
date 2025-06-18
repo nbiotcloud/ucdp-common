@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_sync
-// Data Model: ucdp_common.ucdp_sync.UcdpSyncMod
+// Library:    ucdp_common
+// Module:     ucdp_sync
+// Data Model: UcdpSyncMod
+//             ucdp_common/ucdp_sync.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_sync #( // ucdp_common.ucdp_sync.UcdpSyncMod
+module ucdp_sync #(
   parameter logic [1:0] edge_type_p   = 2'h0, // Type of edge detection
   parameter logic       rstval_p      = 1'b0, // Reset Value
   parameter logic       norstvalchk_p = 1'b0  // No Reset Value Check

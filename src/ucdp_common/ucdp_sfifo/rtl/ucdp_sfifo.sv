@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_sfifo
-// Data Model: ucdp_common.ucdp_sfifo.UcdpSfifoMod
+// Library:    ucdp_common
+// Module:     ucdp_sfifo
+// Data Model: UcdpSfifoMod
+//             ucdp_common/ucdp_sfifo.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_sfifo #( // ucdp_common.ucdp_sfifo.UcdpSfifoMod
+module ucdp_sfifo #(
   parameter integer dwidth_p = 8,                  // FIFO Data Width
   parameter integer depth_p  = 4,                  // FIFO Depth
   parameter integer awidth_p = $clog2(depth_p + 1) // FIFO Address Width

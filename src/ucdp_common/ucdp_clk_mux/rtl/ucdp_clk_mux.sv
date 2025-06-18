@@ -24,15 +24,17 @@
 //
 // =============================================================================
 //
-// Module:     ucdp_common.ucdp_clk_mux
-// Data Model: ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
+// Library:    ucdp_common
+// Module:     ucdp_clk_mux
+// Data Model: UcdpClkMuxMod
+//             ucdp_common/ucdp_clk_mux.py
 //
 // =============================================================================
 
 `begin_keywords "1800-2009"
 `default_nettype none  // implicit wires are forbidden
 
-module ucdp_clk_mux ( // ucdp_common.ucdp_clk_mux.UcdpClkMuxMod
+module ucdp_clk_mux (
   input  wire  clka_i, // Clock A
   input  wire  clkb_i, // Clock B
   input  wire  sel_i,  // Select
