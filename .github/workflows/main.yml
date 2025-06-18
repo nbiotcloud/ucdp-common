@@ -23,7 +23,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
           cache-dependency-glob: "uv.lock"
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.cache/pre-commit/
           key: pre-commit|${{ matrix.os }}|${{ matrix.python-version }}|${{ hashFiles('.pre-commit-config.yaml') }}
